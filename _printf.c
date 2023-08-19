@@ -16,7 +16,7 @@ int _printf(const char *format, ...)
 	va_list args;
 
 	if (format == NULL)
-		return (-1);
+		return (1);
 
 	va_start(args, format);
 
@@ -65,6 +65,9 @@ void handle_specifier(char fmt, va_list args, int *num_of_printed_chars)
 		str = va_arg(args, char *);
 		write(STDOUT_FILENO, str, strlen(str));
 		(*num_of_printed_chars) += strlen(str);
+		break;
+	case 'b':
+		dec_to_bin(va_arg(args, int), num_of_printed_chars);
 		break;
 	default:
 		_putchar('%');
