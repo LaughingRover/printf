@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdio.h>
 
 #define NULL ((void *)0)
 
@@ -23,8 +24,49 @@ int dec_to_bin(int n, int *num_of_printed_chars)
 	 * TODO:
 	 * Binary integer conversion goes here
 	 */
-
 	_printf("Helper function to convert to and print binary numbers ");
+
 	return (0);
+}
+
+/**
+ * print_mod_string - prints a modified string
+ * @str: string to print
+ * @num_of_printed_chars: total number of printed chars
+ * @buffer: local buffer to minimize write calls
+ */
+void print_mod_string(char *str, int *num_of_printed_chars, char buffer[])
+{
+	char *buf = buffer;
+
+	if (str == NULL)
+		return;
+
+	while (*str != '\0')
+	{
+		if ((*str > 0 && *str < 32) || *str >= 127)
+		{
+			*buf = '\\';
+			buf++;
+			*buf = 'x';
+			buf++;
+
+			/*Could be replaced with custom function to Convert to Hexadecimal*/
+			sprintf(buf, "%02X", *str);
+
+			buf += 2; /*Increase buf ptr by 2 (for the two hex numbers)*/
+			*num_of_printed_chars += 4;
+		}
+		else
+		{
+			*buf = *str;
+			buf++;
+			(*num_of_printed_chars)++;
+		}
+		str++;
+	}
+	*buf = '\0';
+
+	write(STDOUT_FILENO, buffer, *num_of_printed_chars);
 }
 
