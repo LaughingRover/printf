@@ -59,29 +59,34 @@ void handle_specifier(char fmt,
 {
 	switch (fmt)
 	{
-	case '%':
-		_putchar(fmt);
-		++(*num_of_printed_chars);
-		break;
-	case 'c':
-		_putchar(va_arg(args, int));
-		++(*num_of_printed_chars);
-		break;
-	case 's':
-		print_string(va_arg(args, char *),
-				num_of_printed_chars, buffer);
-		break;
-	case 'b':
-		dec_to_bin(va_arg(args, int), num_of_printed_chars);
-		break;
-	case 'S':
-		print_mod_string(va_arg(args, char *),
-				num_of_printed_chars, buffer);
-		break;
-	default:
-		_putchar('%');
-		_putchar(fmt);
-		++(*num_of_printed_chars);
+		case '%':
+			_putchar(fmt);
+			++(*num_of_printed_chars);
+			break;
+		case 'c':
+			_putchar(va_arg(args, int));
+			++(*num_of_printed_chars);
+			break;
+		case 's':
+			print_string(va_arg(args, char *),
+					num_of_printed_chars, buffer);
+			break;
+		case 'b':
+			dec_to_bin(va_arg(args, int), num_of_printed_chars);
+			break;
+		case 'S':
+			print_mod_string(va_arg(args, char *),
+					num_of_printed_chars, buffer);
+			break;
+		case 'd':
+		case 'i':
+			print_int(va_arg(args, int), num_of_printed_chars, buffer);
+			break;
+
+		default:
+			_putchar('%');
+			_putchar(fmt);
+			++(*num_of_printed_chars);
 	}
 }
 
@@ -109,5 +114,41 @@ void print_string(char *str, int *num_of_printed_chars, char buffer[])
 		*buf = '\0';
 		write(STDOUT_FILENO, buffer, *num_of_printed_chars);
 	}
+}
+
+/**
+ * print_int - prints an integer
+ * @num: integer to be printed
+ * @num_of_printed_chars: total number of printed chars
+ * @buffer: local buffer to minimize calls
+ */
+void print_int(int num, int *num_of_printed_chars, char buffer[])
+{
+	char *buf = buffer;
+	char *rem = malloc(20);
+	int i = 0, j = 0;
+
+	if (num < 0)
+	{
+		num = -num;
+		_putchar('-');
+	}
+	/* convert integer to character array */
+	while (num != 0)
+	{
+		*(rem + i) = (num % 10) + '0';
+		num = num / 10;
+		i++;
+	}
+	/*reverse rem array to get actual number*/
+	for (i-- ; i >= 0 ; i--)
+	{
+		*(buf + j) = *(rem + i);
+		j++;
+		(*num_of_printed_chars)++;
+	}
+	*(buf + j + 1) = '\0';
+	write(STDOUT_FILENO, buffer, *num_of_printed_chars);
+	free(rem);
 }
 
