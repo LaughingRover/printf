@@ -59,34 +59,33 @@ void handle_specifier(char fmt,
 {
 	switch (fmt)
 	{
-		case '%':
-			_putchar(fmt);
-			++(*num_of_printed_chars);
-			break;
-		case 'c':
-			_putchar(va_arg(args, int));
-			++(*num_of_printed_chars);
-			break;
-		case 's':
-			print_string(va_arg(args, char *),
-					num_of_printed_chars, buffer);
-			break;
-		case 'b':
-			dec_to_bin(va_arg(args, int), num_of_printed_chars);
-			break;
-		case 'S':
-			print_mod_string(va_arg(args, char *),
-					num_of_printed_chars, buffer);
-			break;
-		case 'd':
-		case 'i':
-			print_int(va_arg(args, int), num_of_printed_chars, buffer);
-			break;
-
-		default:
-			_putchar('%');
-			_putchar(fmt);
-			++(*num_of_printed_chars);
+	case '%':
+		_putchar(fmt);
+		++(*num_of_printed_chars);
+		break;
+	case 'c':
+		_putchar(va_arg(args, int));
+		++(*num_of_printed_chars);
+		break;
+	case 's':
+		print_string(va_arg(args, char *),
+				num_of_printed_chars, buffer);
+		break;
+	case 'b':
+		dec_to_bin(va_arg(args, int), num_of_printed_chars);
+		break;
+	case 'S':
+		print_mod_string(va_arg(args, char *),
+				num_of_printed_chars, buffer);
+		break;
+	case 'd':
+	case 'i':
+		print_int(va_arg(args, int), num_of_printed_chars, buffer);
+		break;
+	default:
+		_putchar('%');
+		_putchar(fmt);
+		++(*num_of_printed_chars);
 	}
 }
 
