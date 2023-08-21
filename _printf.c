@@ -78,9 +78,11 @@ void handle_specifier(char fmt,
 		print_mod_string(va_arg(args, char *),
 				num_of_printed_chars, buffer);
 		break;
-	case 'd':
-	case 'i':
-		print_int(va_arg(args, int), num_of_printed_chars, buffer);
+	case 'u': case 'd': case 'i':
+		print_int(va_arg(args, int), fmt, num_of_printed_chars, buffer);
+		break;
+	case 'x': case 'X':
+		print_hex(va_arg(args, int), fmt, num_of_printed_chars, buffer);
 		break;
 	default:
 		_putchar('%');
@@ -121,17 +123,22 @@ void print_string(char *str, int *num_of_printed_chars, char buffer[])
  * @num_of_printed_chars: total number of printed chars
  * @buffer: local buffer to minimize calls
  */
-void print_int(int num, int *num_of_printed_chars, char buffer[])
+void print_int(int num, char fmt, int *num_of_printed_chars, char buffer[])
 {
 	char *buf = buffer;
 	char *rem = malloc(20);
 	int i = 0, j = 0;
 
-	if (num < 0)
+	if ((num < 0) && (fmt == 'i' || fmt == 'd'))
 	{
 		num = -num;
-		_putchar('-');
+		*(buf++) = '-';
+		(*num_of_printed_chars)++;
 	}
+
+	if ((num < 0) && (fmt == 'u'))
+		return;
+
 	/* convert integer to character array */
 	while (num != 0)
 	{

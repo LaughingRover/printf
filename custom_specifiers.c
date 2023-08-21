@@ -1,5 +1,7 @@
 #include "main.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #define NULL ((void *)0)
 
@@ -19,13 +21,12 @@ int dec_to_bin(int n, int *num_of_printed_chars)
 
 	if (n < 0 || num_of_printed_chars == NULL)
 		return (1);
-
 	/**
 	 * TODO:
 	 * Binary integer conversion goes here
 	 */
-	_printf("Helper function to convert to and print binary numbers ");
 
+	_printf("Helper function to convert and to print binary numbers");
 	return (0);
 }
 

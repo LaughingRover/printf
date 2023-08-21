@@ -11,7 +11,8 @@ void handle_specifier(char fmt,
 int dec_to_bin(int, int *num_of_printed_chars);
 void print_mod_string(char *str, int *num_of_printed_chars, char buffer[]);
 void print_string(char *str, int *num_of_printed_chars, char buffer[]);
-void print_int(int num, int *num_of_printed_chars, char buffer[]);
+void print_int(int num, char fmt, int *num_of_printed_chars, char buffer[]);
+void print_hex(int num, char fmt, int *num_of_printed_chars, char buffer[]);
 
 #endif /*MAIN_H*/
 
