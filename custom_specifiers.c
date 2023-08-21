@@ -5,68 +5,77 @@
 
 /**
  * print_binary - converts unsigned integer to binary
- * @n: integer to convert
+ * @args: argument list
  * @num_of_printed_chars: amount of printed characters
+ * @buf_ptr: pointer to local buffer
  *
  * Description: print binary numbers to output and increase the
  * num_of_printed_chars by 1 for each printed character
  *
- * Return: 0 if succesful, 1 if failed
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately
  */
-int print_binary(int n, int *num_of_printed_chars)
+int print_binary(va_list args, int *num_of_printed_chars, char *buf_ptr)
 {
+	int num = va_arg(args, int);
 	(void)num_of_printed_chars;
+	(void)buf_ptr;
 
-	if (n < 0 || num_of_printed_chars == NULL)
+	if (num < 0 || num_of_printed_chars == NULL)
 		return (1);
 
-	/**
-	 * TODO:
-	 * Binary integer conversion goes here
-	 */
-	_printf("Helper function to convert to and print binary numbers ");
+	if (*num_of_printed_chars < 1023)
+	{
+		/**
+		 * TODO:
+		 * Binary integer conversion goes here
+		 */
+		_printf("Helper function to convert to and print binary numbers ");
+	}
 
 	return (0);
 }
 
 /**
  * print_mod_string - prints a modified string
- * @str: string to print
+ * @args: argument list
  * @num_of_printed_chars: total number of printed chars
- * @buffer: local buffer to minimize write calls
+ * @buf_ptr: pointer to local buffer
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately
  */
-void print_mod_string(char *str, int *num_of_printed_chars, char buffer[])
+int print_mod_string(va_list args, int *num_of_printed_chars, char *buf_ptr)
 {
-	char *buf = buffer;
+	char *str = va_arg(args, char *);
 
 	if (str == NULL)
-		return;
+		return (1);
 
-	while (*str != '\0')
+	while (*str != '\0' && *num_of_printed_chars < 1023)
 	{
 		if ((*str > 0 && *str < 32) || *str >= 127)
 		{
-			*buf = '\\';
-			buf++;
-			*buf = 'x';
-			buf++;
+			*buf_ptr = '\\';
+			buf_ptr++;
+			*buf_ptr = 'x';
+			buf_ptr++;
 
 			/*Could be replaced with custom function to Convert to Hexadecimal*/
-			sprintf(buf, "%02X", *str);
+			sprintf(buf_ptr, "%02X", *str);
 
-			buf += 2; /*Increase buf ptr by 2 (for the two hex numbers)*/
+			buf_ptr += 2; /*Increase buf_ptr ptr by 2 (for the two hex numbers)*/
 			*num_of_printed_chars += 4;
 		}
 		else
 		{
-			*buf = *str;
-			buf++;
+			*buf_ptr = *str;
+			buf_ptr++;
 			(*num_of_printed_chars)++;
 		}
 		str++;
 	}
-	*buf = '\0';
+	*buf_ptr = '\0';
 
-	write(STDOUT_FILENO, buffer, *num_of_printed_chars);
+	return (0);
 }
-
