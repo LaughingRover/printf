@@ -82,6 +82,10 @@ void handle_specifier(char fmt,
 	case 'i':
 		print_int(va_arg(args, int), num_of_printed_chars, buffer);
 		break;
+	case 'p':
+		print_mem_address(va_arg(args, void *),
+				num_of_printed_chars, buffer);
+		break;
 	default:
 		_putchar('%');
 		_putchar(fmt);
@@ -94,6 +98,8 @@ void handle_specifier(char fmt,
  * @str: string to print
  * @num_of_printed_chars: total number of printed chars
  * @buffer: local buffer to minimize write calls
+ *
+ * Return void
  */
 void print_string(char *str, int *num_of_printed_chars, char buffer[])
 {
@@ -119,7 +125,9 @@ void print_string(char *str, int *num_of_printed_chars, char buffer[])
  * print_int - prints an integer
  * @num: integer to be printed
  * @num_of_printed_chars: total number of printed chars
- * @buffer: local buffer to minimize calls
+ * @buffer: local buffer to minimize write calls
+ *
+ * Return: void
  */
 void print_int(int num, int *num_of_printed_chars, char buffer[])
 {
@@ -149,5 +157,25 @@ void print_int(int num, int *num_of_printed_chars, char buffer[])
 	*(buf + j + 1) = '\0';
 	write(STDOUT_FILENO, buffer, *num_of_printed_chars);
 	free(rem);
+}
+
+/**
+ * print_mem_address - prints the address of a memory
+ * @addr: memory address of the pointer
+ * @num_of_printed_chars: total number of printed chars
+ * @buffer: local buffer to minize write calls
+ *
+ * Return: void
+ */
+void print_mem_address(void *addr, int *num_of_printed_chars, char buffer[])
+{
+	(void)addr;
+	(void)buffer;
+	(void)num_of_printed_chars;
+
+	_putchar('0');
+	_putchar('x');
+
+	/*Print the hex representation of the address*/
 }
 

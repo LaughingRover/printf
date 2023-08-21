@@ -4,7 +4,7 @@
 #define NULL ((void *)0)
 
 /**
- * dec_to_bin - converts unsigned integer to binary
+ * print_binary - converts unsigned integer to binary
  * @n: integer to convert
  * @num_of_printed_chars: amount of printed characters
  *
@@ -13,7 +13,7 @@
  *
  * Return: 0 if succesful, 1 if failed
  */
-int dec_to_bin(int n, int *num_of_printed_chars)
+int print_binary(int n, int *num_of_printed_chars)
 {
 	(void)num_of_printed_chars;
 
