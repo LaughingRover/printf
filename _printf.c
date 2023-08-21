@@ -78,11 +78,14 @@ void handle_specifier(char fmt,
 		print_mod_string(va_arg(args, char *),
 				num_of_printed_chars, buffer);
 		break;
-	case 'u': case 'd': case 'i':
+	case 'i': case 'd':
 		print_int(va_arg(args, int), fmt, num_of_printed_chars, buffer);
 		break;
 	case 'x': case 'X':
-		print_hex(va_arg(args, int), fmt, num_of_printed_chars, buffer);
+		print_hex(va_arg(args, unsigned int), fmt, num_of_printed_chars, buffer);
+		break;
+	case 'u':
+		print_un_int(va_arg(args, unsigned int), num_of_printed_chars, buffer);
 		break;
 	default:
 		_putchar('%');
@@ -122,6 +125,7 @@ void print_string(char *str, int *num_of_printed_chars, char buffer[])
  * @num: integer to be printed
  * @num_of_printed_chars: total number of printed chars
  * @buffer: local buffer to minimize calls
+ * @fmt: format to print
  */
 void print_int(int num, char fmt, int *num_of_printed_chars, char buffer[])
 {
@@ -134,10 +138,7 @@ void print_int(int num, char fmt, int *num_of_printed_chars, char buffer[])
 		num = -num;
 		*(buf++) = '-';
 		(*num_of_printed_chars)++;
-	}
-
-	if ((num < 0) && (fmt == 'u'))
-		return;
+	};
 
 	/* convert integer to character array */
 	while (num != 0)
