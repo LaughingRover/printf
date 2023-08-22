@@ -1,8 +1,11 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <stdarg.h>
 #include <unistd.h>
+#include <stdarg.h>
+#include <stdlib.h>
+
+#define BUFSIZE (1024)
 
 /**
  * struct specifier - specifier datatype
@@ -12,11 +15,13 @@
  * @c: format specifier
  * @func: format specifier handler
  */
-typedef struct specifier
+struct specifier
 {
-	char c;
+	char fmt;
 	int (*func)(va_list args, int *num_of_printed_chars, char *buf_ptr);
-} spec_t;
+};
+
+typedef struct specifier spec_t;
 
 int is_flag(char);
 int _putchar(char c);
@@ -25,12 +30,18 @@ int _printf(const char *format, ...);
 int (*get_specifier_func(char fmt))(va_list, int *, char *);
 typedef int (*specifier_function)(va_list, int *, char *);
 
-int print_character(va_list args, int *num_of_printed_chars, char *buf_ptr);
-int print_string(va_list args, int *num_of_printed_chars, char *buf_ptr);
-int print_int(va_list args, int *num_of_printed_chars, char *buf_ptr);
-int print_binary(va_list args, int *num_of_printed_chars, char *buf_ptr);
-int print_mod_string(va_list args, int *num_of_printed_chars, char *buf_ptr);
-int print_mem_address(va_list args, int *num_of_printed_chars, char *buf_ptr);
+int handle_character_specifier(va_list args, int *num_of_printed_chars,
+							char *buf_ptr);
+int handle_string_specifier(va_list args, int *num_of_printed_chars,
+							char *buf_ptr);
+int handle_integer_specifier(va_list args, int *num_of_printed_chars,
+							char *buf_ptr);
+int handle_binary_specifier(va_list args, int *num_of_printed_chars,
+							char *buf_ptr);
+int handle_mod_string_specifier(va_list args, int *num_of_printed_chars,
+							char *buf_ptr);
+int handle_mem_addr_specifier(va_list args, int *num_of_printed_chars,
+							char *buf_ptr);
 
 #endif /*MAIN_H*/
 

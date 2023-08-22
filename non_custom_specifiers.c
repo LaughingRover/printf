@@ -1,24 +1,26 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "main.h"
+#include <stdlib.h>
 
 #define NULL ((void *)0)
 
 /**
- * print_character - writes the character c to stdout
+ * handle_character_specifier - writes the character c to buffer
  * @args: argument list
  * @num_of_printed_chars: total number of printed chars
  * @buf_ptr: pointer to local buffer
  *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately
+ * Return: On success 0.
  */
-int print_character(va_list args, int *num_of_printed_chars, char *buf_ptr)
+int handle_character_specifier(va_list args, int *num_of_printed_chars,
+							char *buf_ptr)
 {
 	char c = va_arg(args, int);
 
-	if (*num_of_printed_chars < 1023)
+	if (!c)
+		exit(1);
+
+	/*Prevent buffer overflow*/
+	if (*num_of_printed_chars < BUFSIZE - 1)
 	{
 		*(buf_ptr++) = c;
 		(*num_of_printed_chars)++;
@@ -28,101 +30,107 @@ int print_character(va_list args, int *num_of_printed_chars, char *buf_ptr)
 }
 
 /**
- * print_string - prints a string
+ * handle_string_specifier - writes string to buffer
  * @args: argument list
  * @num_of_printed_chars: total number of printed chars
  * @buf_ptr: pointer to local buffer
  *
  * Return: On success 0.
  */
-int print_string(va_list args, int *num_of_printed_chars, char *buf_ptr)
+int handle_string_specifier(va_list args, int *num_of_printed_chars,
+							char *buf_ptr)
 {
 	char *str = va_arg(args, char *);
 
 	if (str == NULL)
 	{
-		_printf("(null)");
-		return (1);
+		str = "(null)";
+		exit(2);
 	}
-	else
+
+	/*Prevent buffer overflow*/
+	while (*str != '\0' && *num_of_printed_chars < BUFSIZE - 1)
 	{
-		/*Prevent overflow*/
-		while (*str != '\0' && *num_of_printed_chars < 1023)
-		{
-			*(buf_ptr++) = *(str++);
-			(*num_of_printed_chars)++;
-		}
-		*buf_ptr = '\0';
+		*(buf_ptr++) = *(str++);
+		(*num_of_printed_chars)++;
 	}
 
 	return (0);
 }
 
 /**
- * print_int - prints an integer
+ * handle_integer_specifier - writes integer to buffer
  * @args: argument list
  * @num_of_printed_chars: total number of printed chars
  * @buf_ptr: pointer to local buffer
  *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately
+ * Return: On success 0.
  */
-int print_int(va_list args, int *num_of_printed_chars, char *buf_ptr)
+int handle_integer_specifier(va_list args, int *num_of_printed_chars,
+							char *buf_ptr)
 {
 	int num = va_arg(args, int);
-	char *rem = malloc(20);
 	int i = 0, j = 0;
+	char *rem = malloc(20);
+
+	if (rem == NULL)
+		exit(3);
 
 	if (num < 0)
 	{
 		num = -num;
 		*(buf_ptr++) = '-';
+		(*num_of_printed_chars)++;
 	}
+
 	/* convert integer to character array */
 	while (num != 0)
 	{
-		*(rem + i) = (num % 10) + '0';
+		*(rem + i++) = (num % 10) + '0';
 		num = num / 10;
-		i++;
 	}
+
 	/*reverse rem array to get actual number*/
 	for (i--; i >= 0; i--)
 	{
-		if (*num_of_printed_chars < 1023)
+		/*Prevent buffer overflow*/
+		if (*num_of_printed_chars < BUFSIZE - 1)
 		{
-			*(buf_ptr + j) = *(rem + i);
-			j++;
+			*((buf_ptr++) + j++) = *(rem + i);
 			(*num_of_printed_chars)++;
 		}
 	}
-	*(buf_ptr + j + 1) = '\0';
 
 	free(rem);
 	return (0);
 }
 
 /**
- * print_mem_address - prints the address of a memory
+ * handle_mem_addr_specifier - writes memory address to buffer
  * @args: argument list
  * @num_of_printed_chars: total number of printed chars
  * @buf_ptr: pointer to local buffer
  *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately
+ * Return: On success 0.
  */
-int print_mem_address(va_list args, int *num_of_printed_chars, char *buf_ptr)
+int handle_mem_addr_specifier(va_list args, int *num_of_printed_chars,
+							char *buf_ptr)
 {
 	void *addr = va_arg(args, void *);
 
+	if (addr == NULL)
+		exit(6);
+
 	/*Unused variable*/
 	(void)addr;
-	(void)buf_ptr;
-	(void)(*num_of_printed_chars);
 
-	if (*num_of_printed_chars < 1023)
+	/*Prevent buffer overflow*/
+	if (*num_of_printed_chars < BUFSIZE - 1)
 	{
-		_printf("0x");
-		/*Print the hex representation of the address*/
+		*(buf_ptr++) = '0'; 
+		*(buf_ptr++) = 'x';
+		(*num_of_printed_chars)++;
+		/*Write the hex representation of the address to buffer*/
 	}
 
 	return (0);
