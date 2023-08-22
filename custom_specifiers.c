@@ -6,30 +6,28 @@
  * handle_binary_specifier - converts unsigned integer to binary
  * and writes to buffer
  * @args: argument list
- * @num_of_printed_chars: amount of printed characters
- * @buf_ptr: pointer to local buffer
+ * @buffer: pointer to local buffer
+ * @buf_index: buffer index
  *
  * Description: print binary numbers to output and increase the
  * num_of_printed_chars by 1 for each printed character
  *
  * Return: On success 0.
  */
-int handle_binary_specifier(va_list args, int *num_of_printed_chars,
-							char *buf_ptr)
+int handle_binary_specifier(va_list args, char buffer[], size_t *buf_index)
 {
 	int num = va_arg(args, int);
+
+	UNUSED(buffer);
 
 	if (!num)
 		exit(4);
 
-	(void)num_of_printed_chars;
-	(void)buf_ptr;
-
-	if (num < 0 || num_of_printed_chars == NULL)
+	if (num < 0)
 		return (-1);
 
 	/*Prevent buffer overflow*/
-	if (*num_of_printed_chars < BUFSIZE - 1)
+	if (*buf_index < (BUFSIZE - 1))
 	{
 		/**
 		 * TODO:
@@ -43,41 +41,31 @@ int handle_binary_specifier(va_list args, int *num_of_printed_chars,
 /**
  * handle_mod_string_specifier - writes modified string to buffer
  * @args: argument list
- * @num_of_printed_chars: total number of printed chars
- * @buf_ptr: pointer to local buffer
+ * @buffer: pointer to local buffer
+ * @buf_index: buffer index
  *
  * Return: On success 0.
  */
-int handle_mod_string_specifier(va_list args, int *num_of_printed_chars,
-							char *buf_ptr)
+int handle_mod_string_specifier(va_list args, char buffer[], size_t *buf_index)
 {
 	char *str = va_arg(args, char *);
 
 	if (str == NULL)
-	{
 		_printf("(null)");
-		exit(5);
-	}
 
 	/*Prevent buffer overflow*/
-	while (*str != '\0' && *num_of_printed_chars < BUFSIZE - 1)
+	while (*str != '\0' && *buf_index < (BUFSIZE - 1))
 	{
 		if ((*str > 0 && *str < 32) || *str >= 127)
 		{
-			*(buf_ptr++) = '\\';
-			*(buf_ptr++) = 'x';
+			write_buffer('\\', buffer, buf_index);
+			write_buffer('x', buffer, buf_index);
 
 			/*Replace with custom function to Convert to Hexadecimal*/
-			#include <stdio.h>
-			sprintf(buf_ptr, "%02X", *str);
-
-			buf_ptr += 2; /*Increase buf_ptr ptr by 2 (for the two hex numbers)*/
-			*num_of_printed_chars += 4;
 		}
 		else
 		{
-			*(buf_ptr++) = *str;
-			(*num_of_printed_chars)++;
+			write_buffer(*str, buffer, buf_index);
 		}
 		str++;
 	}
