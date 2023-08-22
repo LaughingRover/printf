@@ -9,56 +9,44 @@
  */
 int _printf(const char *format, ...)
 {
-	size_t i;
 	va_list args;
-	int num_of_printed_chars = 0;
 	char buffer[BUFSIZE]; /*Local buffer to minimize write calls*/
-	char *buf_ptr = buffer;
+	size_t buf_index = 0;
 	specifier_function spec_func;
 
 	if (format == NULL)
 		return (-1);
 
-	/*Initialize buffer*/
-	for (i = 0; i < sizeof(buffer); i++)
-		buffer[i] = 0;
-
+	_memset(buffer, '0', sizeof(buffer));
 	va_start(args, format);
-
-	while (*format != '\0' && num_of_printed_chars < BUFSIZE - 1)
+	while (*format != '\0')
 	{
-		if (*format == '%')
+		if (*format == '%') /*Handle format specifiers*/
 		{
 			spec_func = get_specifier_func(*(++format));
-
 			if (spec_func)
 			{
-				spec_func(args, &num_of_printed_chars, buf_ptr);
+				spec_func(args, buffer, &buf_index);
 			}
 			else if (*format == '%')
 			{
 				/*Double '%' character, print as-is*/
-				*(buf_ptr++) = *format;
-				num_of_printed_chars++;
+				write_buffer(*format, buffer, &buf_index);
 			}
 			else
 			{
 				/*Unsupported format specifier, print as-is*/
-				*(buf_ptr++) = '%';
-				*(buf_ptr++) = *format;
-				num_of_printed_chars += 2;
+				write_buffer('%', buffer, &buf_index);
+				write_buffer(*format, buffer, &buf_index);
 			}
 		}
 		else
 		{
-			*(buf_ptr++) = *format;
-			num_of_printed_chars++;
+			write_buffer(*format, buffer, &buf_index);
 		}
 		format++;
 	}
-	*buf_ptr = '\0'; /*Add null-terminating character at the end of the sequence*/
 	va_end(args);
-	write(STDOUT_FILENO, buffer, num_of_printed_chars);
-
-	return (num_of_printed_chars);
+	buffer[buf_index] = '\0';
+	return (flush_buffer(buffer, &buf_index));
 }

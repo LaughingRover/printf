@@ -6,7 +6,7 @@
  *
  * Return: Format specifier function else NULL if not found
  */
-int (*get_specifier_func(char fmt))(va_list, int *, char *)
+int (*get_specifier_func(char fmt))(va_list, char [], size_t *)
 {
 	int i = 0;
 	spec_t spec[] = {
