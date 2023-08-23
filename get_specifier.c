@@ -17,6 +17,10 @@ int (*get_specifier_func(char fmt))(va_list, char [], size_t *)
 		{'b', handle_binary_specifier},
 		{'S', handle_mod_string_specifier},
 		{'p', handle_mem_addr_specifier},
+		{'u', handle_unint_specifier},
+		{'x', handle_hexadecimal_specifier},
+		{'X', handle_hexa_upper_specifier},
+		{'o', handle_octal_specifier},
 	};
 
 	while (i < (int)(sizeof(spec) / sizeof(spec[i])))
