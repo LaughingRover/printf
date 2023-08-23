@@ -52,31 +52,43 @@ int handle_string_specifier(va_list args, FormatContext *context)
 int handle_integer_specifier(va_list args, FormatContext *context)
 {
 	int num = va_arg(args, int), i = 0;
-	char *rem = malloc(20);
-
-	if (rem == NULL)
-		return (1);
+	char rem[22] ; /* Assuming a 64-bit integer  can have at most 20 digits */
+	int is_negative = 0;
 
 	if (num < 0)
 	{
+		is_negative = 1;
 		num = -num;
-		write_buffer('-', context);
 	}
 
-	/* convert integer to character array */
-	while (num != 0)
+	if (num == 0)
 	{
-		*(rem + i++) = (num % 10) + '0';
-		num = num / 10;
+		/* handle zero case */
+		write_buffer('0', context);
+		return (0);
 	}
 
-	/*reverse rem array to get actual number*/
-	for (i-- ; i >= 0 ; i--)
+	if (num)
 	{
-		write_buffer(*(rem + i), context);
+		/* convert integer to character array */
+		while (num != 0)
+		{
+			rem[i++] = (num % 10) + '0';
+			num = num / 10;
+		}
+
+		if (is_negative)
+		{
+			write_buffer('-', context);
+		}
+
+		/* reverse rem array to get actual number*/
+		for (i-- ; i >= 0 ; i--)
+		{
+			write_buffer(rem[i], context);
+		}
 	}
 
-	free(rem);
 	return (0);
 }
 
@@ -94,7 +106,7 @@ int handle_mem_addr_specifier(va_list args, FormatContext *context)
 	if (addr == NULL)
 		return (1);
 
-	/*Unused variable*/
+	/*  Unused variable*/
 	(void)addr;
 
 	write_buffer('0', context);
@@ -114,27 +126,31 @@ int handle_mem_addr_specifier(va_list args, FormatContext *context)
 int handle_uint_specifier(va_list args, FormatContext *context)
 {
 	unsigned int num = va_arg(args, unsigned int);
-	char *rem = malloc(sizeof(unsigned int));
+	char rem[22]; /* Assuming a 64-bit integer can have at most 20 digits */
 	int i = 0;
 
-	if (rem == NULL)
-		exit(4);
+	if (num == 0)
+	{
+		/* Handle zero case */
+		write_buffer('0', context);
+		return (0);
+	}
 
 	if (num)
 	{
 		while (num != 0)
 		{
-			*(rem + i++) = (num % 10) + '0';
+			rem[i++] = (num % 10) + '0';
 			num /= 10;
 		}
 
 		/* reverse rem array to get actual number */
 		for (i-- ; i >= 0 ; i--)
 		{
-			write_buffer(*(rem + i), context);
+			write_buffer(rem[i], context);
 		}
 
 	}
-	free(rem);
+
 	return (0);
 }

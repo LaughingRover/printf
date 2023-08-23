@@ -13,9 +13,8 @@
  */
 int handle_binary_specifier(va_list args, FormatContext *context)
 {
-	int num = va_arg(args, int);
-
-	UNUSED(context);
+	int num = va_arg(args, int), i = 0;
+	char rem[22];
 
 	if (!num)
 		return (1);
@@ -23,10 +22,23 @@ int handle_binary_specifier(va_list args, FormatContext *context)
 	if (num < 0)
 		return (-1);
 
-	/**
-	 * TODO:
-	 * Binary integer conversion goes here
-	 */
+	if (num == 0)
+	{
+		write_buffer('0',  context);
+		return (0);
+	}
+
+	while (num > 0)
+	{
+		rem[i++] = (num % 2) + '0';
+		num /= 2;
+	}
+	/* reverrse rem array to get actual number */
+	for (i-- ; i >= 0 ; i--)
+	{
+		write_buffer(rem[i], context);
+	}
+
 
 	return (0);
 }
@@ -52,9 +64,8 @@ int handle_mod_string_specifier(va_list args, FormatContext *context)
 		{
 			write_buffer('\\', context);
 			write_buffer('x', context);
-
-			/*Replace with custom function to Convert to Hexadecimal*/
 		}
+
 		else
 		{
 			write_buffer(*str, context);
