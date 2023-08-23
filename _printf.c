@@ -50,3 +50,4 @@ int _printf(const char *format, ...)
 	buffer[buf_index] = '\0';
 	return (flush_buffer(buffer, &buf_index));
 }
+

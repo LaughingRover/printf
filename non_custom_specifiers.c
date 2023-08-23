@@ -45,10 +45,10 @@ int handle_string_specifier(va_list args, char buffer[], size_t *buf_index)
 }
 
 /**
- * handle_integer_specifier - writes integer to buffer
- * @args: argument list
+ * handle_integer_specifier - writes integer to buffer * @args: argument list
  * @buffer: pointer to local buffer
  * @buf_index: buffer index
+ * @args: argument list
  *
  * Return: On success 0.
  */
@@ -74,7 +74,7 @@ int handle_integer_specifier(va_list args, char buffer[], size_t *buf_index)
 	}
 
 	/*reverse rem array to get actual number*/
-	for (i--; i >= 0; i--)
+	for (i-- ; i >= 0 ; i--)
 	{
 		write_buffer(*(rem + i), buffer, buf_index);
 	}
@@ -105,5 +105,41 @@ int handle_mem_addr_specifier(va_list args, char buffer[], size_t *buf_index)
 	write_buffer('x', buffer, buf_index);
 	/*Write the hex representation of the address to buffer*/
 
+	return (0);
+}
+
+/**
+ * handle_unint_specifier - writes unsigned integer to buffer
+ * @args: argument list
+ * @buffer: pointer to local buffer
+ * @buf_index: buffer index
+ *
+ * Return: On success 0.
+ */
+int handle_unint_specifier(va_list args, char buffer[], size_t *buf_index)
+{
+	unsigned int num = va_arg(args, unsigned int);
+	char *rem = malloc(sizeof(unsigned int));
+	int i = 0;
+
+	if (rem == NULL)
+		exit(4);
+
+	if (num)
+	{
+		while (num != 0)
+		{
+			*(rem + i++) = (num % 10) + '0';
+			num /= 10;
+		}
+
+		/* reverse rem array to get actual number */
+		for (i-- ; i >= 0 ; i--)
+		{
+			write_buffer(*(rem + i), buffer, buf_index);
+		}
+
+	}
+	free(rem);
 	return (0);
 }
