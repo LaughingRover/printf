@@ -6,19 +6,18 @@
 /**
  * handle_character_specifier - writes the character c to buffer
  * @args: argument list
- * @buffer: pointer to local buffer
- * @buf_index: buffer index
+ * @context: formatting options and arguments
  *
  * Return: On success 1 else -1
  */
-int handle_character_specifier(va_list args, char buffer[], size_t *buf_index)
+int handle_character_specifier(va_list args, FormatContext *context)
 {
 	char c = va_arg(args, int);
 
 	if (!c)
-		exit(-1);
+		return (1);
 
-	write_buffer(c, buffer, buf_index);
+	write_buffer(c, context);
 
 	return (0);
 }
@@ -26,12 +25,11 @@ int handle_character_specifier(va_list args, char buffer[], size_t *buf_index)
 /**
  * handle_string_specifier - writes string to buffer
  * @args: argument list
- * @buffer: pointer to local buffer
- * @buf_index: buffer index
+ * @context: formatting options and arguments
  *
  * Return: On success 0.
  */
-int handle_string_specifier(va_list args, char buffer[], size_t *buf_index)
+int handle_string_specifier(va_list args, FormatContext *context)
 {
 	const char *str = va_arg(args, char *);
 
@@ -39,31 +37,30 @@ int handle_string_specifier(va_list args, char buffer[], size_t *buf_index)
 		str = "(null)";
 
 	while (*str != '\0')
-		write_buffer(*(str++), buffer, buf_index);
+		write_buffer(*(str++), context);
 
 	return (0);
 }
 
 /**
- * handle_integer_specifier - writes integer to buffer * @args: argument list
- * @buffer: pointer to local buffer
- * @buf_index: buffer index
+ * handle_integer_specifier - writes integer to buffer
  * @args: argument list
+ * @context: formatting options and arguments
  *
  * Return: On success 0.
  */
-int handle_integer_specifier(va_list args, char buffer[], size_t *buf_index)
+int handle_integer_specifier(va_list args, FormatContext *context)
 {
 	int num = va_arg(args, int), i = 0;
 	char *rem = malloc(20);
 
 	if (rem == NULL)
-		exit(3);
+		return (1);
 
 	if (num < 0)
 	{
 		num = -num;
-		write_buffer('-', buffer, buf_index);
+		write_buffer('-', context);
 	}
 
 	/* convert integer to character array */
@@ -76,7 +73,7 @@ int handle_integer_specifier(va_list args, char buffer[], size_t *buf_index)
 	/*reverse rem array to get actual number*/
 	for (i-- ; i >= 0 ; i--)
 	{
-		write_buffer(*(rem + i), buffer, buf_index);
+		write_buffer(*(rem + i), context);
 	}
 
 	free(rem);
@@ -86,37 +83,35 @@ int handle_integer_specifier(va_list args, char buffer[], size_t *buf_index)
 /**
  * handle_mem_addr_specifier - writes memory address to buffer
  * @args: argument list
- * @buffer: pointer to local buffer
- * @buf_index: buffer index
+ * @context: formatting options and arguments
  *
  * Return: On success 0.
  */
-int handle_mem_addr_specifier(va_list args, char buffer[], size_t *buf_index)
+int handle_mem_addr_specifier(va_list args, FormatContext *context)
 {
 	void *addr = va_arg(args, void *);
 
 	if (addr == NULL)
-		exit(6);
+		return (1);
 
 	/*Unused variable*/
 	(void)addr;
 
-	write_buffer('0', buffer, buf_index);
-	write_buffer('x', buffer, buf_index);
+	write_buffer('0', context);
+	write_buffer('x', context);
 	/*Write the hex representation of the address to buffer*/
 
 	return (0);
 }
 
 /**
- * handle_unint_specifier - writes unsigned integer to buffer
+ * handle_uint_specifier - writes unsigned integer to buffer
  * @args: argument list
- * @buffer: pointer to local buffer
- * @buf_index: buffer index
+ * @context: formatting options and arguments
  *
  * Return: On success 0.
  */
-int handle_unint_specifier(va_list args, char buffer[], size_t *buf_index)
+int handle_uint_specifier(va_list args, FormatContext *context)
 {
 	unsigned int num = va_arg(args, unsigned int);
 	char *rem = malloc(sizeof(unsigned int));
@@ -136,7 +131,7 @@ int handle_unint_specifier(va_list args, char buffer[], size_t *buf_index)
 		/* reverse rem array to get actual number */
 		for (i-- ; i >= 0 ; i--)
 		{
-			write_buffer(*(rem + i), buffer, buf_index);
+			write_buffer(*(rem + i), context);
 		}
 
 	}

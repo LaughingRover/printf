@@ -10,15 +10,14 @@
 int _printf(const char *format, ...)
 {
 	va_list args;
-	char buffer[BUFSIZE]; /*Local buffer to minimize write calls*/
-	size_t buf_index = 0;
 	specifier_function spec_func;
+	FormatContext context = initialize_format_context();
 
 	if (format == NULL)
 		return (-1);
 
-	_memset(buffer, '0', sizeof(buffer));
 	va_start(args, format);
+
 	while (*format != '\0')
 	{
 		if (*format == '%') /*Handle format specifiers*/
@@ -26,28 +25,28 @@ int _printf(const char *format, ...)
 			spec_func = get_specifier_func(*(++format));
 			if (spec_func)
 			{
-				spec_func(args, buffer, &buf_index);
+				spec_func(args, &context);
 			}
 			else if (*format == '%')
 			{
 				/*Double '%' character, print as-is*/
-				write_buffer(*format, buffer, &buf_index);
+				write_buffer(*format, &context);
 			}
 			else
 			{
 				/*Unsupported format specifier, print as-is*/
-				write_buffer('%', buffer, &buf_index);
-				write_buffer(*format, buffer, &buf_index);
+				write_buffer('%', &context);
+				write_buffer(*format, &context);
 			}
 		}
 		else
 		{
-			write_buffer(*format, buffer, &buf_index);
+			write_buffer(*format, &context);
 		}
 		format++;
 	}
 	va_end(args);
-	buffer[buf_index] = '\0';
-	return (flush_buffer(buffer, &buf_index));
+	context.buffer[context.buf_index] = '\0';
+	return (flush_buffer(&context));
 }
 

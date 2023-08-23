@@ -6,10 +6,10 @@
  *
  * Return: Format specifier function else NULL if not found
  */
-int (*get_specifier_func(char fmt))(va_list, char [], size_t *)
+int (*get_specifier_func(char fmt))(va_list, FormatContext *)
 {
 	int i = 0;
-	spec_t spec[] = {
+	specifier spec[] = {
 		{'c', handle_character_specifier},
 		{'s', handle_string_specifier},
 		{'d', handle_integer_specifier},
@@ -17,7 +17,7 @@ int (*get_specifier_func(char fmt))(va_list, char [], size_t *)
 		{'b', handle_binary_specifier},
 		{'S', handle_mod_string_specifier},
 		{'p', handle_mem_addr_specifier},
-		{'u', handle_unint_specifier},
+		{'u', handle_uint_specifier},
 		{'x', handle_hexadecimal_specifier},
 		{'X', handle_hexa_upper_specifier},
 		{'o', handle_octal_specifier},
