@@ -66,9 +66,9 @@ int handle_integer_specifier(va_list args, FormatContext *context);
 int handle_binary_specifier(va_list args, FormatContext *context);
 int handle_mod_string_specifier(va_list args, FormatContext *context);
 int handle_mem_addr_specifier(va_list args, FormatContext *context);
-int handle_unint_specifier(va_list args, char buffer[], size_t *buf_index);
-int handle_hexadecimal_specifier(va_list args, char buffer[], size_t *buf_index);
-int handle_hexa_upper_specifier(va_list args, char buffer[], size_t *buf_index);
-int handle_octal_specifier(va_list args, char buffer[], size_t *buf_index);
+int handle_uint_specifier(va_list args, FormatContext *context);
+int handle_hexadecimal_specifier(va_list args, FormatContext *context);
+int handle_hexa_upper_specifier(va_list args, FormatContext *context);
+int handle_octal_specifier(va_list args, FormatContext *context);
 
 #endif /*MAIN_H*/

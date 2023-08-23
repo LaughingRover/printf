@@ -6,12 +6,11 @@
 /**
  * handle_hexadecimal_specifier - writes unsigned hexadecimal to buffer
  * @args: argument list
- * @buffer: pointer to local buffer
- * @buf_index: buffer index
+ * @context: formatting options and arguments
  *
  * Return: On success 0.
  */
-int handle_hexadecimal_specifier(va_list args, char buffer[], size_t *buf_index)
+int handle_hexadecimal_specifier(va_list args, FormatContext *context)
 {
 	unsigned int num = va_arg(args, unsigned int);
 	char *rem = malloc(sizeof(unsigned int));
@@ -34,22 +33,21 @@ int handle_hexadecimal_specifier(va_list args, char buffer[], size_t *buf_index)
 	/* reverse rem array to get actual number */
 	for (i-- ; i >= 0 ; i--)
 	{
-		write_buffer(*(rem + i), buffer, buf_index);
+		write_buffer(*(rem + i), context);
 	}
 	free(rem);
 	return (0);
 }
 
 /**
- * handle hexa_upper_specifier - writes unsigned hexadecimal to buffer
+ * handle_hexa_upper_specifier - writes unsigned hexadecimal to buffer
  * @args: argument list
- * @buffer: pointer to local buffer
- * @buf_index: buffer index
- * Description: writes the letters in uppercase
+ * @context: formatting options and arguments
  *
+ * Description: writes the letters in uppercase
  * Return: on success 0
  */
-int handle_hexa_upper_specifier(va_list args, char buffer[], size_t *buf_index)
+int handle_hexa_upper_specifier(va_list args, FormatContext *context)
 {
 	unsigned int num = va_arg(args, unsigned int);
 	char *rem = malloc(sizeof(unsigned int));
@@ -71,7 +69,7 @@ int handle_hexa_upper_specifier(va_list args, char buffer[], size_t *buf_index)
 
 	for (i-- ; i >= 0 ; i--)
 	{
-		write_buffer(*(rem + i), buffer, buf_index);
+		write_buffer(*(rem + i), context);
 	}
 	free(rem);
 	return (0);
@@ -80,12 +78,11 @@ int handle_hexa_upper_specifier(va_list args, char buffer[], size_t *buf_index)
 /**
  * handle_octal_specifier - writes unsigned octal to buffer
  * @args: argument list
- * @buffer: pointer to local buffer
- * @buf_index: buffer index
+ * @context: formatting options and arguments
  *
  * Return: On successs 0
  */
-int handle_octal_specifier(va_list args, char buffer[], size_t *buf_index)
+int handle_octal_specifier(va_list args, FormatContext *context)
 {
 	unsigned int num = va_arg(args, unsigned int);
 	char *rem = malloc(sizeof(unsigned int));
@@ -104,7 +101,7 @@ int handle_octal_specifier(va_list args, char buffer[], size_t *buf_index)
 
 		for (i-- ; i >= 0 ; i--)
 		{
-			write_buffer(*(rem + i), buffer, buf_index);
+			write_buffer(*(rem + i), context);
 		}
 	}
 	free(rem);

@@ -105,14 +105,13 @@ int handle_mem_addr_specifier(va_list args, FormatContext *context)
 }
 
 /**
- * handle_unint_specifier - writes unsigned integer to buffer
+ * handle_uint_specifier - writes unsigned integer to buffer
  * @args: argument list
- * @buffer: pointer to local buffer
- * @buf_index: buffer index
+ * @context: formatting options and arguments
  *
  * Return: On success 0.
  */
-int handle_unint_specifier(va_list args, char buffer[], size_t *buf_index)
+int handle_uint_specifier(va_list args, FormatContext *context)
 {
 	unsigned int num = va_arg(args, unsigned int);
 	char *rem = malloc(sizeof(unsigned int));
@@ -132,7 +131,7 @@ int handle_unint_specifier(va_list args, char buffer[], size_t *buf_index)
 		/* reverse rem array to get actual number */
 		for (i-- ; i >= 0 ; i--)
 		{
-			write_buffer(*(rem + i), buffer, buf_index);
+			write_buffer(*(rem + i), context);
 		}
 
 	}

@@ -17,7 +17,7 @@ int (*get_specifier_func(char fmt))(va_list, FormatContext *)
 		{'b', handle_binary_specifier},
 		{'S', handle_mod_string_specifier},
 		{'p', handle_mem_addr_specifier},
-		{'u', handle_unint_specifier},
+		{'u', handle_uint_specifier},
 		{'x', handle_hexadecimal_specifier},
 		{'X', handle_hexa_upper_specifier},
 		{'o', handle_octal_specifier},
