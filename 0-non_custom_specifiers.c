@@ -79,7 +79,7 @@ int handle_integer_specifier(va_list args, FormatContext *context)
 	} while (num > 0);
 
 	/*reverse rem array to get actual number*/
-	for (; i >= 0 ; i--)
+	for (i--; i >= 0 ; i--)
 	{
 		write_buffer(rem[i], context);
 	}
