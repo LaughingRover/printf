@@ -106,7 +106,7 @@ int handle_mem_addr_specifier(va_list args, FormatContext *context)
 	if (addr == NULL)
 		return (1);
 
-	/*  Unused variable*/
+	/*Unused variable*/
 	(void)addr;
 
 	write_buffer('0', context);

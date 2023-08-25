@@ -13,7 +13,7 @@
 int handle_hexadecimal_specifier(va_list args, FormatContext *context)
 {
 	unsigned int num = va_arg(args, unsigned int);
-	char rem[22]; /* Assuming a 64-bit integer can have  20 digits */
+	char rem[22]; /*Assuming a 64-bit integer can have 16 hexadecimal digits*/
 	int i = 0, digit;
 
 	if (num == 0)
@@ -54,7 +54,7 @@ int handle_hexadecimal_specifier(va_list args, FormatContext *context)
 int handle_hexa_upper_specifier(va_list args, FormatContext *context)
 {
 	unsigned int num = va_arg(args, unsigned int);
-	char rem[22]; /* Assuming a 64-bit integer can have at most 20 digits */
+	char rem[22]; /*Assuming a 64-bit integer can have 16 hexadecimal digits*/
 	int i = 0, digit;
 
 	if (num == 0)
@@ -94,7 +94,7 @@ int handle_hexa_upper_specifier(va_list args, FormatContext *context)
 int handle_octal_specifier(va_list args, FormatContext *context)
 {
 	unsigned int num = va_arg(args, unsigned int);
-	char rem[22]; /* Assuming a 64-bit integer can have at most 20 digits */
+	char rem[22]; /*Assuming a 64-bit integer can have 22 octal digits*/
 	int i = 0;
 
 	if (num == 0)

@@ -3,6 +3,7 @@
 
 #include <unistd.h>
 #include <stdarg.h>
+#include <stdlib.h>
 
 #define NULL ((void *)0)
 #define BUFSIZE (1024)
@@ -51,6 +52,7 @@ typedef struct specifier
 
 int is_flag(char);
 int _printf(const char *format, ...);
+size_t _strlen(const char *);
 
 FormatContext initialize_format_context(void);
 void *_memset(void *dest, int value, size_t block_size);
@@ -70,5 +72,7 @@ int handle_uint_specifier(va_list args, FormatContext *context);
 int handle_hexadecimal_specifier(va_list args, FormatContext *context);
 int handle_hexa_upper_specifier(va_list args, FormatContext *context);
 int handle_octal_specifier(va_list args, FormatContext *context);
+int handle_rot13_string_specifier(va_list args, FormatContext *context);
+int handle_reverse_string_specifier(va_list args, FormatContext *context);
 
 #endif /*MAIN_H*/

@@ -75,10 +75,27 @@ void *_memset(void *dest, int value, size_t block_size)
 }
 
 /**
+ * _strlen - find length of string
+ * @str: string
+ *
+ * Return: length of string
+ */
+size_t _strlen(const char *str)
+{
+	size_t length = 0;
+
+	while (str[length] != '\0')
+	{
+		length++;
+	}
+
+	return length;
+}
+/**
  * initialize_format_context - function to initialize FormatContext struct
  *
  * Return: FormatContext
-*/
+ */
 FormatContext initialize_format_context(void)
 {
 	FormatContext context;
