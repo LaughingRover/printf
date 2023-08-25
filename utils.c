@@ -93,3 +93,18 @@ FormatContext initialize_format_context(void)
 
 	return (context);
 }
+
+/**
+ * reset_flags_modifiers - resets format flags, width, etc.
+ * @context: data store for formatting options and arguments
+ *
+ * Return: void
+*/
+void reset_flags_modifiers(FormatContext *context)
+{
+	context->flags = 0;
+	context->width = 0;
+	context->precision  = 0;
+	context->size = 0;
+	context->length_modifier = LENGTH_MODIFIER_NONE;
+}

@@ -26,7 +26,18 @@ int main(void)
 	printf("Address:[%p]\n", addr);
 	len2 = printf("Percent:[%%]\n");
 	printf("Len:[%d]\n", len2);
-	printf("Unknown:[%r]\n");
+	_printf("%b\n", 98);
+	_printf("%S\n", "TheVeryBest\nSchool");
+	_printf("Plus_flag:   [%+d]\n", len2);
+	_printf("Certain NUM: [%d]\n", -len2);
+	_printf("Space_flag:  [% d]\n", len2);
+	_printf("Hash flag octal:[%#o]\n", ui);
+	_printf("Hash flag hexa:[%#x, %#X]\n", ui, ui);
+	_printf("Unknown_flag: [%*d]\n", len2);
+	_printf("The value of long integer: %ld\n", (long)1234567890);
+	_printf("The value of short integer: %hd\n", (short)32767);
+	_printf("Width: %5d\n", 123);
+    _printf("Width: %10s\n", "Hello");
 
 	printf("\n############################\n\n");
 
@@ -42,9 +53,18 @@ int main(void)
 	len = _printf("Percent:[%%]\n");
 	_printf("Len:[%d]\n", len);
 	_printf("Unknown:[%r]\n");
-
 	_printf("%b\n", 98);
 	_printf("%S\n", "TheVeryBest\nSchool");
+	_printf("Plus_flag:   [%+d]\n", len);
+	_printf("Certain NUM: [%d]\n", -len);
+	_printf("Space_flag:  [% d]\n", len);
+	_printf("Hash flag octal:[%#o]\n", ui);
+	_printf("Hash flag hexa:[%#x, %#X]\n", ui, ui);
+	_printf("Unknown_flag: [%*d]\n", len);
+	_printf("The value of long integer: %ld\n", (long)1234567890);
+	_printf("The value of short integer: %hd\n", (short)32767);
+	_printf("Width: %5d\n", 123);
+    _printf("Width: %10s\n", "Hello");
 
 	return (0);
 }

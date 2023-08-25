@@ -63,8 +63,8 @@ int handle_integer_specifier(va_list args, FormatContext *context)
 		num = va_arg(args, int);
 	else if (length_modifier == LENGTH_MODIFIER_LONG)
 		num = va_arg(args, long int);
-	else if (length_modifier == LENGTH_MODIFIER_SHORT)
-		num = (int)(short int)va_arg(args, int); /*Using typecast to avoid promotion*/
+	else if (length_modifier == LENGTH_MODIFIER_SHORT)	/*Using typecast*/
+		num = (int)(short int)va_arg(args, int);		/*to avoid promotion*/
 
 	if (num < 0)
 	{
@@ -73,8 +73,7 @@ int handle_integer_specifier(va_list args, FormatContext *context)
 	}
 
 	/*convert integer to character array*/
-	do
-	{
+	do {
 		rem[i++] = (num % 10) + '0';
 		num = num / 10;
 	} while (num > 0);
@@ -84,6 +83,7 @@ int handle_integer_specifier(va_list args, FormatContext *context)
 	{
 		write_buffer(rem[i], context);
 	}
+	reset_flags_modifiers(context);
 
 	return (0);
 }

@@ -31,6 +31,16 @@ int parse_flags(const char fmt, FormatContext *context)
 	return (context->flags);
 }
 
+/**
+ * parse_length_modifiers - indicates the size of the argument
+ * @fmt: format specifier
+ * @context: data store for formatting options and arguments
+ *
+ * Description: The h length modifier is used to indicate that the argument
+ * is a short int (for integer specifiers). Example: %hd for short int
+ *
+ * Return: length modifier
+*/
 int parse_length_modifiers(const char fmt, FormatContext *context)
 {
 	switch (fmt)
@@ -44,4 +54,23 @@ int parse_length_modifiers(const char fmt, FormatContext *context)
 	}
 
 	return (context->length_modifier);
+}
+
+/**
+ * parse_width - indicates the
+ * @fmt: format specifier
+ * @context: data store for formatting options and arguments
+ *
+ * Return: width
+*/
+int parse_width(const char fmt, FormatContext *context)
+{
+	if (fmt >= 0 && fmt <= 9)
+	{
+		/**
+		 * TODO: Implement parse width
+		*/
+	}
+
+	return (context->width);
 }
