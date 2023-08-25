@@ -19,7 +19,10 @@ int handle_binary_specifier(FormatContext *context)
 		return (1);
 
 	if (num < 0)
-		return (-1);
+	{
+		num = -num;
+		write_buffer('1', context);
+	}
 
 	if (num == 0)
 	{
@@ -138,6 +141,7 @@ int handle_rot13_string_specifier(FormatContext *context)
 	{
 		write_buffer(str[i], context);
 	}
+	free(str);
 
 	return (0);
 }

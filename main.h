@@ -84,6 +84,7 @@ int flush_buffer(FormatContext *context);
 int parse_flag(const char fmt, FormatContext *context);
 int parse_length_modifier(const char fmt, FormatContext *context);
 int parse_width(const char fmt, FormatContext *context);
+int modify_integer_length(FormatContext *context);
 
 int handle_character_specifier(FormatContext *context);
 int handle_string_specifier(FormatContext *context);

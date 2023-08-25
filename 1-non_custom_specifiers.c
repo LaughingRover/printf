@@ -10,9 +10,11 @@
  */
 int handle_hexadecimal_specifier(FormatContext *context)
 {
-	unsigned int num = va_arg(context->args, unsigned int);
+	unsigned int num = 0;
 	char rem[18]; /* Assuming a 64-bit integer can have 16 hex digits */
 	int i = 0, digit;
+
+	num = (unsigned int)modify_integer_length(context);
 
 	/*convert num to charater array*/
 	do {
@@ -49,9 +51,11 @@ int handle_hexadecimal_specifier(FormatContext *context)
  */
 int handle_hexa_upper_specifier(FormatContext *context)
 {
-	unsigned int num = va_arg(context->args, unsigned int);
+	unsigned int num = 0;
 	char rem[18]; /* Assuming a 64-bit integer can have 16 hex digits */
 	int i = 0, digit;
+
+	num = (unsigned int)modify_integer_length(context);
 
 	/*convert num to charater array*/
 	do {
@@ -86,9 +90,11 @@ int handle_hexa_upper_specifier(FormatContext *context)
  */
 int handle_octal_specifier(FormatContext *context)
 {
-	unsigned int num = va_arg(context->args, unsigned int);
+	unsigned int num = 0;
 	char rem[24]; /*Assuming a 64-bit integer can have 22 octal digits*/
 	int i = 0;
+
+	num = (unsigned int)modify_integer_length(context);
 
 	/*convert num to charater array*/
 	do {

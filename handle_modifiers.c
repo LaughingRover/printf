@@ -57,6 +57,27 @@ int parse_length_modifier(const char fmt, FormatContext *context)
 }
 
 /**
+ * modify_integer_length - modify the size of argument
+ * @context: data store for formatting options and arguments
+ */
+int modify_integer_length(FormatContext *context)
+{
+	int num;
+	int length_modifier = context->length_modifier;
+
+	if (length_modifier == LENGTH_MODIFIER_NONE)
+		num = va_arg(context->args, int);
+	else if (length_modifier == LENGTH_MODIFIER_LONG)
+		num = va_arg(context->args, long int);
+	else if (length_modifier == LENGTH_MODIFIER_SHORT) /*Using typecast*/
+		num = (int)(short int)va_arg(context->args, int); /*to avoid promotion*/
+
+	return (num);
+}
+
+
+
+/**
  * parse_width - indicates the
  * @fmt: format specifier
  * @context: data store for formatting options and arguments
@@ -74,3 +95,4 @@ int parse_width(const char fmt, FormatContext *context)
 
 	return (context->width);
 }
+
