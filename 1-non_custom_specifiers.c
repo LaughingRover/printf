@@ -9,9 +9,9 @@
  *
  * Return: On success 0.
  */
-int handle_hexadecimal_specifier(va_list args, FormatContext *context)
+int handle_hexadecimal_specifier(FormatContext *context)
 {
-	unsigned int num = va_arg(args, unsigned int);
+	unsigned int num = va_arg(context->args, unsigned int);
 	char rem[18]; /* Assuming a 64-bit integer can have 16 hex digits */
 	int i = 0, digit;
 
@@ -57,9 +57,9 @@ int handle_hexadecimal_specifier(va_list args, FormatContext *context)
  * Description: writes the letters in uppercase
  * Return: on success 0
  */
-int handle_hexa_upper_specifier(va_list args, FormatContext *context)
+int handle_hexa_upper_specifier(FormatContext *context)
 {
-	unsigned int num = va_arg(args, unsigned int);
+	unsigned int num = va_arg(context->args, unsigned int);
 	char rem[18]; /* Assuming a 64-bit integer can have 16 hex digits */
 	int i = 0, digit;
 
@@ -102,9 +102,9 @@ int handle_hexa_upper_specifier(va_list args, FormatContext *context)
  *
  * Return: On successs 0
  */
-int handle_octal_specifier(va_list args, FormatContext *context)
+int handle_octal_specifier(FormatContext *context)
 {
-	unsigned int num = va_arg(args, unsigned int);
+	unsigned int num = va_arg(context->args, unsigned int);
 	char rem[24]; /*Assuming a 64-bit integer can have 22 octal digits*/
 	int i = 0;
 
