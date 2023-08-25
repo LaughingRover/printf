@@ -9,14 +9,13 @@
  */
 int _printf(const char *format, ...)
 {
-	va_list args;
 	specifier_function spec_func;
 	FormatContext context = initialize_format_context();
 
 	if (format == NULL)
 		return (-1);
 
-	va_start(args, format);
+	va_start(context.args, format);
 
 	while (*format)
 	{
@@ -33,7 +32,7 @@ int _printf(const char *format, ...)
 			spec_func = get_specifier_func(*format); /*Handle Specifiers*/
 			if (spec_func)
 			{
-				spec_func(args, &context);
+				spec_func(&context);
 			}
 			else if (*format == '%') /*Double '%' character, print as-is*/
 			{
@@ -51,7 +50,7 @@ int _printf(const char *format, ...)
 		}
 		format++;
 	}
-	va_end(args);
+	va_end(context.args);
 	context.buffer[context.buf_index] = '\0';
 	return (flush_buffer(&context));
 }

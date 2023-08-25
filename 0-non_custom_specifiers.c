@@ -9,9 +9,9 @@
  *
  * Return: On success 1 else -1
  */
-int handle_character_specifier(va_list args, FormatContext *context)
+int handle_character_specifier(FormatContext *context)
 {
-	char c = va_arg(args, int);
+	char c = va_arg(context->args, int);
 
 	if (!c)
 		return (1);
@@ -28,16 +28,22 @@ int handle_character_specifier(va_list args, FormatContext *context)
  *
  * Return: On success 0.
  */
-int handle_string_specifier(va_list args, FormatContext *context)
+int handle_string_specifier(FormatContext *context)
 {
-	const char *str = va_arg(args, char *);
+	const char *str = va_arg(context->args, char *);
 
 	if (str == NULL)
 		str = "(null)";
 
 	while (*str != '\0')
+	{
+		/*Check if buffer is full*/
+		if (context->buf_index >= (BUFSIZE - 1))
+		{
+			flush_buffer(context);
+		}
 		write_buffer(*(str++), context);
-
+	}
 	return (0);
 }
 
@@ -48,7 +54,7 @@ int handle_string_specifier(va_list args, FormatContext *context)
  *
  * Return: On success 0.
  */
-int handle_integer_specifier(va_list args, FormatContext *context)
+int handle_integer_specifier(FormatContext *context)
 {
 	int num = 0, i = 0;
 	int length_modifier = context->length_modifier;
@@ -60,11 +66,11 @@ int handle_integer_specifier(va_list args, FormatContext *context)
 		write_buffer(' ', context);
 
 	if (length_modifier == LENGTH_MODIFIER_NONE)
-		num = va_arg(args, int);
+		num = va_arg(context->args, int);
 	else if (length_modifier == LENGTH_MODIFIER_LONG)
-		num = va_arg(args, long int);
+		num = va_arg(context->args, long int);
 	else if (length_modifier == LENGTH_MODIFIER_SHORT)	/*Using typecast*/
-		num = (int)(short int)va_arg(args, int);		/*to avoid promotion*/
+		num = (int)(short int)va_arg(context->args, int);		/*to avoid promotion*/
 
 	if (num < 0)
 	{
@@ -95,9 +101,9 @@ int handle_integer_specifier(va_list args, FormatContext *context)
  *
  * Return: On success 0.
  */
-int handle_mem_addr_specifier(va_list args, FormatContext *context)
+int handle_mem_addr_specifier(FormatContext *context)
 {
-	void *addr = va_arg(args, void *);
+	void *addr = va_arg(context->args, void *);
 
 	if (addr == NULL)
 		return (1);
@@ -119,9 +125,9 @@ int handle_mem_addr_specifier(va_list args, FormatContext *context)
  *
  * Return: On success 0.
  */
-int handle_uint_specifier(va_list args, FormatContext *context)
+int handle_uint_specifier(FormatContext *context)
 {
-	unsigned int num = va_arg(args, unsigned int);
+	unsigned int num = va_arg(context->args, unsigned int);
 	char rem[22]; /* Assuming a 64-bit integer can have at most 21 digits */
 	int i = 0;
 

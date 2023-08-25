@@ -11,9 +11,9 @@
  *
  * Return: On success 0.
  */
-int handle_binary_specifier(va_list args, FormatContext *context)
+int handle_binary_specifier(FormatContext *context)
 {
-	int num = va_arg(args, int), i = 0;
+	int num = va_arg(context->args, int), i = 0;
 	char rem[22];
 
 	if (!num)
@@ -49,9 +49,9 @@ int handle_binary_specifier(va_list args, FormatContext *context)
  *
  * Return: On success 0.
  */
-int handle_mod_string_specifier(va_list args, FormatContext *context)
+int handle_mod_string_specifier(FormatContext *context)
 {
-	char *str = va_arg(args, char *);
+	char *str = va_arg(context->args, char *);
 
 	if (str == NULL)
 		_printf("(null)");
@@ -82,9 +82,9 @@ int handle_mod_string_specifier(va_list args, FormatContext *context)
  *
  * Return: On success 0.
  */
-int handle_reverse_string_specifier(va_list args, FormatContext *context)
+int handle_reverse_string_specifier(FormatContext *context)
 {
-	char *str = va_arg(args, char *);
+	char *str = va_arg(context->args, char *);
 	int len = 0;
 
 	if (str == NULL)
@@ -110,9 +110,9 @@ int handle_reverse_string_specifier(va_list args, FormatContext *context)
  *
  * Return: On success 0.
  */
-int handle_rot13_string_specifier(va_list args, FormatContext *context)
+int handle_rot13_string_specifier(FormatContext *context)
 {
-	char *str_in = va_arg(args, char *);
+	char *str_in = va_arg(context->args, char *);
 	char input[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	char output[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
 	int size = 0, i;

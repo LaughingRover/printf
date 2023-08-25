@@ -47,6 +47,7 @@ typedef struct FormatContext
 	int precision;
 	int size;
 	int length_modifier;
+	va_list args;
 	size_t buf_index;
 	char buffer[BUFSIZE]; /*Local buffer to minimize write calls*/
 } FormatContext;
@@ -61,7 +62,7 @@ typedef struct FormatContext
 typedef struct specifier
 {
 	char fmt;
-	int (*func)(va_list args, FormatContext *context);
+	int (*func)(FormatContext *context);
 } specifier;
 
 int _printf(const char *format, ...);
@@ -71,25 +72,25 @@ void reset_flags_modifiers(FormatContext *context);
 void *_memset(void *dest, int value, size_t block_size);
 void write_buffer(char c, FormatContext *context);
 int flush_buffer(FormatContext *context);
-int (*get_specifier_func(char fmt))(va_list args, FormatContext *context);
-typedef int (*specifier_function)(va_list args, FormatContext *context);
+int (*get_specifier_func(char fmt))(FormatContext *context);
+typedef int (*specifier_function)(FormatContext *context);
 
 int parse_flags(const char fmt, FormatContext *context);
 int parse_length_modifiers(const char fmt, FormatContext *context);
 int parse_width(const char fmt, FormatContext *context);
 
-int handle_character_specifier(va_list args, FormatContext *context);
-int handle_string_specifier(va_list args, FormatContext *context);
-int handle_integer_specifier(va_list args, FormatContext *context);
-int handle_binary_specifier(va_list args, FormatContext *context);
-int handle_mod_string_specifier(va_list args, FormatContext *context);
-int handle_mem_addr_specifier(va_list args, FormatContext *context);
-int handle_uint_specifier(va_list args, FormatContext *context);
-int handle_hexadecimal_specifier(va_list args, FormatContext *context);
-int handle_hexa_upper_specifier(va_list args, FormatContext *context);
-int handle_octal_specifier(va_list args, FormatContext *context);
-int handle_reverse_string_specifier(va_list args, FormatContext *context);
-int handle_rot13_string_specifier(va_list args, FormatContext *context);
+int handle_character_specifier(FormatContext *context);
+int handle_string_specifier(FormatContext *context);
+int handle_integer_specifier(FormatContext *context);
+int handle_binary_specifier(FormatContext *context);
+int handle_mod_string_specifier(FormatContext *context);
+int handle_mem_addr_specifier(FormatContext *context);
+int handle_uint_specifier(FormatContext *context);
+int handle_hexadecimal_specifier(FormatContext *context);
+int handle_hexa_upper_specifier(FormatContext *context);
+int handle_octal_specifier(FormatContext *context);
+int handle_reverse_string_specifier(FormatContext *context);
+int handle_rot13_string_specifier(FormatContext *context);
 
 #endif /*MAIN_H*/
 
