@@ -25,6 +25,9 @@ int _printf(const char *format, ...)
 			format++;
 			if (parse_flags(*format, &context)) /*Handle flags*/
 				format++;
+			if (parse_length_modifiers(*format, &context))
+				format++;
+
 			spec_func = get_specifier_func(*format); /*Handle Specifiers*/
 			if (spec_func)
 			{

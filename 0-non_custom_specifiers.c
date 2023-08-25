@@ -50,11 +50,21 @@ int handle_string_specifier(va_list args, FormatContext *context)
  */
 int handle_integer_specifier(va_list args, FormatContext *context)
 {
-	int num = va_arg(args, int), i = 0;
-	char *rem = malloc(20);
+	int num = 0, i = 0;
+	int length_modifier = context->length_modifier;
+	char rem[20];
 
-	if (rem == NULL)
-		return (1);
+	if (context->flags == FLAG_PLUS)
+		write_buffer('+', context);
+	else if (context->flags == FLAG_SPACE)
+		write_buffer(' ', context);
+
+	if (length_modifier == LENGTH_MODIFIER_NONE)
+		num = va_arg(args, int);
+	else if (length_modifier == LENGTH_MODIFIER_LONG)
+		num = va_arg(args, long int);
+	else if (length_modifier == LENGTH_MODIFIER_SHORT)
+		num = (int)(short int)va_arg(args, int); /*Using typecast to avoid promotion*/
 
 	if (num < 0)
 	{
@@ -62,25 +72,19 @@ int handle_integer_specifier(va_list args, FormatContext *context)
 		write_buffer('-', context);
 	}
 
-	if (context->flags == FLAG_PLUS)
-		write_buffer('+', context);
-	else if (context->flags == FLAG_SPACE)
-		write_buffer(' ', context);
-
-	/* convert integer to character array */
-	while (num != 0)
+	/*convert integer to character array*/
+	do
 	{
-		*(rem + i++) = (num % 10) + '0';
+		rem[i++] = (num % 10) + '0';
 		num = num / 10;
-	}
+	} while (num > 0);
 
 	/*reverse rem array to get actual number*/
-	for (i-- ; i >= 0 ; i--)
+	for (; i >= 0 ; i--)
 	{
-		write_buffer(*(rem + i), context);
+		write_buffer(rem[i], context);
 	}
 
-	free(rem);
 	return (0);
 }
 

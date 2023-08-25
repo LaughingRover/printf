@@ -30,3 +30,18 @@ int parse_flags(const char fmt, FormatContext *context)
 
 	return (context->flags);
 }
+
+int parse_length_modifiers(const char fmt, FormatContext *context)
+{
+	switch (fmt)
+	{
+	case 'l':
+		context->length_modifier |= LENGTH_MODIFIER_LONG;
+		break;
+	case 'h':
+		context->length_modifier |= LENGTH_MODIFIER_SHORT;
+		break;
+	}
+
+	return (context->length_modifier);
+}

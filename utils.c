@@ -87,7 +87,9 @@ FormatContext initialize_format_context(void)
 	context.width = 0;
 	context.precision = 0;
 	context.size = 0;
+	context.length_modifier = LENGTH_MODIFIER_NONE;
 	context.buf_index = 0; /*Initialize buf_index to NULL or a valid pointer*/
 	_memset(context.buffer, 0, BUFSIZE); /*Initialize buffer with zeros*/
+
 	return (context);
 }
