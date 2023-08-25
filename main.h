@@ -3,10 +3,18 @@
 
 #include <unistd.h>
 #include <stdarg.h>
+#include <stdlib.h>
 
-#define NULL ((void *)0)
-#define BUFSIZE (1024)
-#define UNUSED(x) (void)(x)
+#define BUFSIZE		(1024)
+#define UNUSED(x)	(void)(x)
+#define NULL		((void *)0)
+
+#define FLAG_PLUS	(0X01)
+#define FLAG_SPACE	(0x02)
+#define FLAG_HASH	(0x03)
+#define FLAG_ZERO	(0x04)
+#define MOD_MINUS	(0x05)
+
 
 /**
  * struct FormatContext - formatting options and arguments
@@ -49,16 +57,16 @@ typedef struct specifier
 	int (*func)(va_list args, FormatContext *context);
 } specifier;
 
-int is_flag(char);
 int _printf(const char *format, ...);
 
 FormatContext initialize_format_context(void);
 void *_memset(void *dest, int value, size_t block_size);
 void write_buffer(char c, FormatContext *context);
 int flush_buffer(FormatContext *context);
-
 int (*get_specifier_func(char fmt))(va_list args, FormatContext *context);
 typedef int (*specifier_function)(va_list args, FormatContext *context);
+
+int parse_flags(const char fmt, FormatContext *context);
 
 int handle_character_specifier(va_list args, FormatContext *context);
 int handle_string_specifier(va_list args, FormatContext *context);

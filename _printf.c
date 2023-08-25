@@ -18,23 +18,24 @@ int _printf(const char *format, ...)
 
 	va_start(args, format);
 
-	while (*format != '\0')
+	while (*format)
 	{
-		if (*format == '%') /*Handle format specifiers*/
+		if (*format == '%')
 		{
-			spec_func = get_specifier_func(*(++format));
+			format++;
+			if (parse_flags(*format, &context)) /*Handle flags*/
+				format++;
+			spec_func = get_specifier_func(*format); /*Handle Specifiers*/
 			if (spec_func)
 			{
 				spec_func(args, &context);
 			}
-			else if (*format == '%')
+			else if (*format == '%') /*Double '%' character, print as-is*/
 			{
-				/*Double '%' character, print as-is*/
 				write_buffer(*format, &context);
 			}
-			else
+			else /*Unsupported format specifier, print as-is*/
 			{
-				/*Unsupported format specifier, print as-is*/
 				write_buffer('%', &context);
 				write_buffer(*format, &context);
 			}

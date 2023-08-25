@@ -1,12 +1,11 @@
 #include "main.h"
-#include <stdlib.h>
 
 #define NULL ((void *)0)
 
 /**
  * handle_character_specifier - writes the character c to buffer
  * @args: argument list
- * @context: formatting options and arguments
+ * @context: data store for formatting options and arguments
  *
  * Return: On success 1 else -1
  */
@@ -25,7 +24,7 @@ int handle_character_specifier(va_list args, FormatContext *context)
 /**
  * handle_string_specifier - writes string to buffer
  * @args: argument list
- * @context: formatting options and arguments
+ * @context: data store for formatting options and arguments
  *
  * Return: On success 0.
  */
@@ -45,7 +44,7 @@ int handle_string_specifier(va_list args, FormatContext *context)
 /**
  * handle_integer_specifier - writes integer to buffer
  * @args: argument list
- * @context: formatting options and arguments
+ * @context: data store for formatting options and arguments
  *
  * Return: On success 0.
  */
@@ -62,6 +61,11 @@ int handle_integer_specifier(va_list args, FormatContext *context)
 		num = -num;
 		write_buffer('-', context);
 	}
+
+	if (context->flags == FLAG_PLUS)
+		write_buffer('+', context);
+	else if (context->flags == FLAG_SPACE)
+		write_buffer(' ', context);
 
 	/* convert integer to character array */
 	while (num != 0)
@@ -83,7 +87,7 @@ int handle_integer_specifier(va_list args, FormatContext *context)
 /**
  * handle_mem_addr_specifier - writes memory address to buffer
  * @args: argument list
- * @context: formatting options and arguments
+ * @context: data store for formatting options and arguments
  *
  * Return: On success 0.
  */
@@ -107,7 +111,7 @@ int handle_mem_addr_specifier(va_list args, FormatContext *context)
 /**
  * handle_uint_specifier - writes unsigned integer to buffer
  * @args: argument list
- * @context: formatting options and arguments
+ * @context: data store for formatting options and arguments
  *
  * Return: On success 0.
  */
@@ -118,7 +122,7 @@ int handle_uint_specifier(va_list args, FormatContext *context)
 	int i = 0;
 
 	if (rem == NULL)
-		exit(4);
+		return (-1);
 
 	if (num)
 	{
