@@ -112,7 +112,6 @@ int handle_octal_specifier(va_list args, FormatContext *context)
 	{
 		/*Handle zero case*/
 		write_buffer('0', context);
-		write_buffer('0', context);
 		return (0);
 	}
 
