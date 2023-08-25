@@ -12,11 +12,15 @@
 int handle_hexadecimal_specifier(va_list args, FormatContext *context)
 {
 	unsigned int num = va_arg(args, unsigned int);
-	char *rem = malloc(sizeof(unsigned int));
+	char rem[18]; /* Assuming a 64-bit integer can have 16 hex digits */
 	int i = 0, digit;
 
-	if (rem == NULL)
-		return (-1);
+	if (num == 0)
+	{
+		/* handle zero case */
+		write_buffer('0', context);
+		return (0);
+	}
 
 	/* convert num to charater array */
 	while (num != 0)
@@ -24,9 +28,9 @@ int handle_hexadecimal_specifier(va_list args, FormatContext *context)
 		digit = num % 16;
 
 		if (digit >= 10)
-			*(rem + i++) = 'a' + (digit - 10);
+			rem[i++] = 'a' + (digit - 10);
 		else
-			*(rem + i++) = '0' + digit;
+			rem[i++] = '0' + digit;
 		num /= 16;
 	}
 
@@ -39,9 +43,9 @@ int handle_hexadecimal_specifier(va_list args, FormatContext *context)
 	/* reverse rem array to get actual number */
 	for (i--; i >= 0; i--)
 	{
-		write_buffer(*(rem + i), context);
+		write_buffer(rem[i], context);
 	}
-	free(rem);
+
 	return (0);
 }
 
@@ -56,20 +60,24 @@ int handle_hexadecimal_specifier(va_list args, FormatContext *context)
 int handle_hexa_upper_specifier(va_list args, FormatContext *context)
 {
 	unsigned int num = va_arg(args, unsigned int);
-	char *rem = malloc(sizeof(unsigned int));
+	char rem[18]; /* Assuming a 64-bit integer can have 16 hex digits */
 	int i = 0, digit;
 
-	if (rem == NULL)
-		exit(7);
+	if (num == 0)
+	{
+		/* Handle zero case */
+		write_buffer('0', context);
+		return (0);
+	}
 
 	while (num != 0)
 	{
 		digit = num % 16;
 
 		if (digit >= 10)
-			*(rem + i++) = 'A' + (digit - 10);
+			rem[i++] = 'A' + (digit - 10);
 		else
-			*(rem + i++) = '0' + digit;
+			rem[i++] = '0' + digit;
 		num /= 16;
 	}
 
@@ -81,9 +89,9 @@ int handle_hexa_upper_specifier(va_list args, FormatContext *context)
 
 	for (i--; i >= 0; i--)
 	{
-		write_buffer(*(rem + i), context);
+		write_buffer(rem[i], context);
 	}
-	free(rem);
+
 	return (0);
 }
 
@@ -97,7 +105,7 @@ int handle_hexa_upper_specifier(va_list args, FormatContext *context)
 int handle_octal_specifier(va_list args, FormatContext *context)
 {
 	unsigned int num = va_arg(args, unsigned int);
-	char rem[12]; /*Assuming a 32-bit integer can have at most 11 octal digits*/
+	char rem[24]; /*Assuming a 64-bit integer can have 22 octal digits*/
 	int i = 0;
 
 	if (num == 0)
@@ -124,3 +132,4 @@ int handle_octal_specifier(va_list args, FormatContext *context)
 
 	return (0);
 }
+

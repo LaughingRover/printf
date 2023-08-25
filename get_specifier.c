@@ -21,6 +21,8 @@ int (*get_specifier_func(char fmt))(va_list, FormatContext *)
 		{'x', handle_hexadecimal_specifier},
 		{'X', handle_hexa_upper_specifier},
 		{'o', handle_octal_specifier},
+		{'r', handle_reverse_string_specifier},
+		{'R', handle_rot13_string_specifier},
 	};
 
 	while (i < (int)(sizeof(spec) / sizeof(spec[i])))
