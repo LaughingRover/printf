@@ -22,27 +22,8 @@ int _printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			if (parse_flags(*format, &context))
-				format++;
-			if (parse_length_modifiers(*format, &context))
-				format++;
-			if (parse_width(*format, &context))
-				format++;
-
-			spec_func = get_specifier_func(*format); /*Handle Specifiers*/
-			if (spec_func)
-			{
-				spec_func(&context);
-			}
-			else if (*format == '%') /*Double '%' character, print as-is*/
-			{
-				write_buffer(*format, &context);
-			}
-			else /*Unsupported format specifier, print as-is*/
-			{
-				write_buffer('%', &context);
-				write_buffer(*format, &context);
-			}
+			check_flag_modifier(&format, &context);
+			check_specifier(&format, &context, &spec_func);
 		}
 		else
 		{
