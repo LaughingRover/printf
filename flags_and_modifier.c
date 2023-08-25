@@ -1,49 +1,47 @@
-#include <stdbool.h>
+#include "main.h"
 
 /**
- * is_flag - checks if character is a flag for conversion specifier
- * @c: character to check
+ * parse_flags - checks format specifiers for flags and sets the bits
+ * @fmt: format specifier
+ * @context: data store for formatting options and arguments
  *
- * Return: If flag return true, else false
- */
-bool is_flag(char c)
+ * Return: flag
+*/
+int parse_flags(const char fmt, FormatContext *context)
 {
-	const char flags[] = {'+', ' ', '#', '-', '\0'};
-	int i = 0;
-
-	while (flags[i] != '\0')
+	switch (fmt)
 	{
-		if (flags[i] == c)
-			return (true);
-		i++;
+	case '+':
+		context->flags |= FLAG_PLUS;
+		break;
+	case ' ':
+		context->flags |= FLAG_SPACE;
+		break;
+	case '#':
+		context->flags |= FLAG_HASH;
+		break;
+	case '-':
+		context->flags |= MOD_MINUS;
+		break;
+	case '0':
+		context->flags |= FLAG_ZERO;
+		break;
 	}
 
-	return (false);
+	return (context->flags);
 }
 
-/**
- * handle_flags - handles flags
- */
-void handle_flags(void)
+int parse_length_modifiers(const char fmt, FormatContext *context)
 {
-	char fmt = 'c';
-
-	if (is_flag(fmt))
+	switch (fmt)
 	{
-		switch (fmt)
-		{
-		case '+':
-			/**(buffer++) = '+';*/
-			break;
-		case ' ':
-			/**(buffer++) = ' ';*/
-			break;
-		case '#':
-			/*Convert value to alternate form*/
-			break;
-		case '-':
-			/*Left justify*/
-			break;
-		}
+	case 'l':
+		context->length_modifier |= LENGTH_MODIFIER_LONG;
+		break;
+	case 'h':
+		context->length_modifier |= LENGTH_MODIFIER_SHORT;
+		break;
 	}
+
+	return (context->length_modifier);
 }

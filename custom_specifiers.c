@@ -4,7 +4,7 @@
  * handle_binary_specifier - converts unsigned integer to binary
  * and writes to buffer
  * @args: argument list
- * @context: formatting options and arguments
+ * @context: data store for formatting options and arguments
  *
  * Description: print binary numbers to output and increase the
  * num_of_printed_chars by 1 for each printed character
@@ -34,7 +34,7 @@ int handle_binary_specifier(va_list args, FormatContext *context)
 /**
  * handle_mod_string_specifier - writes modified string to buffer
  * @args: argument list
- * @context: formatting options and arguments
+ * @context: data store for formatting options and arguments
  *
  * Return: On success 0.
  */
@@ -45,7 +45,6 @@ int handle_mod_string_specifier(va_list args, FormatContext *context)
 	if (str == NULL)
 		_printf("(null)");
 
-	/*Prevent buffer overflow*/
 	while (*str != '\0')
 	{
 		if ((*str > 0 && *str < 32) || *str >= 127)

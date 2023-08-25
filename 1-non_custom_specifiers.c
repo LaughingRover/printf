@@ -1,12 +1,11 @@
 #include "main.h"
-#include <stdlib.h>
 
 #define NULL ((void *)0)
 
 /**
  * handle_hexadecimal_specifier - writes unsigned hexadecimal to buffer
  * @args: argument list
- * @context: formatting options and arguments
+ * @context: data store for formatting options and arguments
  *
  * Return: On success 0.
  */
@@ -17,7 +16,7 @@ int handle_hexadecimal_specifier(va_list args, FormatContext *context)
 	int i = 0, digit;
 
 	if (rem == NULL)
-		exit(5);
+		return (-1);
 
 	/* convert num to charater array */
 	while (num != 0)
@@ -30,8 +29,15 @@ int handle_hexadecimal_specifier(va_list args, FormatContext *context)
 			*(rem + i++) = '0' + digit;
 		num /= 16;
 	}
+
+	if (context->flags == FLAG_HASH)
+	{
+		write_buffer('0', context);
+		write_buffer('x', context);
+	}
+
 	/* reverse rem array to get actual number */
-	for (i-- ; i >= 0 ; i--)
+	for (i--; i >= 0; i--)
 	{
 		write_buffer(*(rem + i), context);
 	}
@@ -42,7 +48,7 @@ int handle_hexadecimal_specifier(va_list args, FormatContext *context)
 /**
  * handle_hexa_upper_specifier - writes unsigned hexadecimal to buffer
  * @args: argument list
- * @context: formatting options and arguments
+ * @context: data store for formatting options and arguments
  *
  * Description: writes the letters in uppercase
  * Return: on success 0
@@ -67,7 +73,13 @@ int handle_hexa_upper_specifier(va_list args, FormatContext *context)
 		num /= 16;
 	}
 
-	for (i-- ; i >= 0 ; i--)
+	if (context->flags == FLAG_HASH)
+	{
+		write_buffer('0', context);
+		write_buffer('X', context);
+	}
+
+	for (i--; i >= 0; i--)
 	{
 		write_buffer(*(rem + i), context);
 	}
@@ -78,33 +90,37 @@ int handle_hexa_upper_specifier(va_list args, FormatContext *context)
 /**
  * handle_octal_specifier - writes unsigned octal to buffer
  * @args: argument list
- * @context: formatting options and arguments
+ * @context: data store for formatting options and arguments
  *
  * Return: On successs 0
  */
 int handle_octal_specifier(va_list args, FormatContext *context)
 {
 	unsigned int num = va_arg(args, unsigned int);
-	char *rem = malloc(sizeof(unsigned int));
+	char rem[12]; /*Assuming a 32-bit integer can have at most 11 octal digits*/
 	int i = 0;
 
-	if (rem == NULL)
-		exit(6);
-
-	if (num)
+	if (num == 0)
 	{
-		while (num != 0)
-		{
-			*(rem + i++) = (num % 8) + '0';
-			num /= 8;
-		}
-
-		for (i-- ; i >= 0 ; i--)
-		{
-			write_buffer(*(rem + i), context);
-		}
+		/*Handle zero case*/
+		write_buffer('0', context);
+		write_buffer('0', context);
+		return (0);
 	}
-	free(rem);
+
+	while (num != 0)
+	{
+		rem[i++] = (num % 8) + '0';
+		num /= 8;
+	}
+
+	if (context->flags == FLAG_HASH)
+		write_buffer('0', context);
+
+	for (i--; i >= 0; i--)
+	{
+		write_buffer(rem[i], context);
+	}
+
 	return (0);
 }
-

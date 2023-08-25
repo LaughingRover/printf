@@ -2,7 +2,7 @@
 
 /**
  * flush_buffer - prints out the contents of buffer to stdout
- * @context: formatting options and arguments
+ * @context: data store for formatting options and arguments
  *
  * Description: write any remaining data in the buffer to the output
  * (e.g., a file or standard output) and resetting the buffer to an
@@ -36,7 +36,7 @@ int flush_buffer(FormatContext *context)
  * write_buffer - Writes to the local buffer
  *
  * @c: character to write to buffer
- * @context: formatting options and arguments
+ * @context: data store for formatting options and arguments
  */
 void write_buffer(char c, FormatContext *context)
 {
@@ -87,7 +87,9 @@ FormatContext initialize_format_context(void)
 	context.width = 0;
 	context.precision = 0;
 	context.size = 0;
+	context.length_modifier = LENGTH_MODIFIER_NONE;
 	context.buf_index = 0; /*Initialize buf_index to NULL or a valid pointer*/
 	_memset(context.buffer, 0, BUFSIZE); /*Initialize buffer with zeros*/
+
 	return (context);
 }
