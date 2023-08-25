@@ -13,9 +13,8 @@
  */
 int handle_binary_specifier(va_list args, FormatContext *context)
 {
-	int num = va_arg(args, int);
-
-	UNUSED(context);
+	int num = va_arg(args, int), i = 0;
+	char rem[22];
 
 	if (!num)
 		return (1);
@@ -23,14 +22,26 @@ int handle_binary_specifier(va_list args, FormatContext *context)
 	if (num < 0)
 		return (-1);
 
-	/**
-	 * TODO:
-	 * Binary integer conversion goes here
-	 */
+	if (num == 0)
+	{
+		write_buffer('0',  context);
+		return (0);
+	}
+
+	while (num > 0)
+	{
+		rem[i++] = (num % 2) + '0';
+		num /= 2;
+	}
+	/* reverrse rem array to get actual number */
+	for (i-- ; i >= 0 ; i--)
+	{
+		write_buffer(rem[i], context);
+	}
+
 
 	return (0);
 }
-
 /**
  * handle_mod_string_specifier - writes modified string to buffer
  * @args: argument list
@@ -63,3 +74,75 @@ int handle_mod_string_specifier(va_list args, FormatContext *context)
 
 	return (0);
 }
+
+/**
+ * handle_reverse_string_specifier - writes reversed string to buffer
+ * @args: argument list
+ * @context: data store for formatting options and arguments
+ *
+ * Return: On success 0.
+ */
+int handle_reverse_string_specifier(va_list args, FormatContext *context)
+{
+	char *str = va_arg(args, char *);
+	int len = 0;
+
+	if (str == NULL)
+		str = "(null)";
+
+	/*Find length of the string*/
+	while (str[len++] != '\0')
+	{}
+
+	/*Reverse string and write into buffer*/
+	while (len-- > 0)
+	{
+		write_buffer(str[len], context);
+	}
+
+	return (0);
+}
+
+/**
+ * handle_rot13_string_specifier - writed the encoded string in rot13 to buffer
+ * @args: argument list
+ * @context: data store for formatting options and arguments
+ *
+ * Return: On success 0.
+ */
+int handle_rot13_string_specifier(va_list args, FormatContext *context)
+{
+	char *str_in = va_arg(args, char *);
+	char input[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	char output[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
+	int size = 0, i;
+	int len = strlen(str_in);
+	char *str = malloc(sizeof(char) * len);
+
+	str = strdup(str_in);
+
+	if (str == NULL)
+		return (1);
+
+	while (str[size] != '\0')
+	{
+		for (i = 0; i < 52; i++)
+		{
+			if (str[size] == input[i])
+			{
+				*(str + size) = output[i];
+				break;
+			}
+		}
+
+		size++;
+	}
+
+	for (i = 0; i <= size; i++)
+	{
+		write_buffer(str[i], context);
+	}
+
+	return (0);
+}
+

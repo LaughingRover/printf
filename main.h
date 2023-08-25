@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define BUFSIZE		(1024)
 #define UNUSED(x)	(void)(x)
@@ -87,5 +88,8 @@ int handle_uint_specifier(va_list args, FormatContext *context);
 int handle_hexadecimal_specifier(va_list args, FormatContext *context);
 int handle_hexa_upper_specifier(va_list args, FormatContext *context);
 int handle_octal_specifier(va_list args, FormatContext *context);
+int handle_reverse_string_specifier(va_list args, FormatContext *context);
+int handle_rot13_string_specifier(va_list args, FormatContext *context);
 
 #endif /*MAIN_H*/
+

@@ -122,27 +122,32 @@ int handle_mem_addr_specifier(va_list args, FormatContext *context)
 int handle_uint_specifier(va_list args, FormatContext *context)
 {
 	unsigned int num = va_arg(args, unsigned int);
-	char *rem = malloc(sizeof(unsigned int));
+	char rem[22]; /* Assuming a 64-bit integer can have at most 21 digits */
 	int i = 0;
 
-	if (rem == NULL)
-		return (-1);
+	if (num == 0)
+	{
+		/* Handle zero case */
+		write_buffer('0', context);
+		return (0);
+	}
 
 	if (num)
 	{
 		while (num != 0)
 		{
-			*(rem + i++) = (num % 10) + '0';
+			rem[i++] = (num % 10) + '0';
 			num /= 10;
 		}
 
 		/* reverse rem array to get actual number */
 		for (i-- ; i >= 0 ; i--)
 		{
-			write_buffer(*(rem + i), context);
+			write_buffer(rem[i], context);
 		}
 
 	}
-	free(rem);
+
 	return (0);
 }
+
