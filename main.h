@@ -66,6 +66,7 @@ typedef struct specifier
 int _printf(const char *format, ...);
 
 FormatContext initialize_format_context(void);
+void reset_flags_modifiers(FormatContext *context);
 void *_memset(void *dest, int value, size_t block_size);
 void write_buffer(char c, FormatContext *context);
 int flush_buffer(FormatContext *context);
@@ -74,6 +75,7 @@ typedef int (*specifier_function)(va_list args, FormatContext *context);
 
 int parse_flags(const char fmt, FormatContext *context);
 int parse_length_modifiers(const char fmt, FormatContext *context);
+int parse_width(const char fmt, FormatContext *context);
 
 int handle_character_specifier(va_list args, FormatContext *context);
 int handle_string_specifier(va_list args, FormatContext *context);
