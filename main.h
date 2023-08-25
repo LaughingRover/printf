@@ -28,9 +28,10 @@
  * @precision: specifies the precision for formatted output, for
  * floating-point numbers
  * @size: indicates the size of the data being formatted
- * @buf_index: keeps track of the current position in a buffer
  * @length_modifier: indicates the size or type of arguments that are expected
  * by the conversion specifier.
+ * @args: variable argument list
+ * @buf_index: keeps track of the current position in a buffer
  * @buffer: A character array (or string) that serves as a temporary storage
  * location for formatted output. It is used to accumulate characters and data
  * before writing them to the final destination, such as a file or stdout.
@@ -62,21 +63,26 @@ typedef struct FormatContext
 typedef struct specifier
 {
 	char fmt;
-	int (*func)(FormatContext *context);
+	int (*func)(FormatContext *);
 } specifier;
 
 int _printf(const char *format, ...);
 
 FormatContext initialize_format_context(void);
+
+int (*get_specifier_func(char fmt))(FormatContext *);
+typedef int (*specifier_function)(FormatContext *);
+void check_flag_modifier(const char **fmt, FormatContext *context);
 void reset_flags_modifiers(FormatContext *context);
+void check_specifier(const char **fmt, FormatContext *context,
+						specifier_function *spec_func);
+
 void *_memset(void *dest, int value, size_t block_size);
 void write_buffer(char c, FormatContext *context);
 int flush_buffer(FormatContext *context);
-int (*get_specifier_func(char fmt))(FormatContext *context);
-typedef int (*specifier_function)(FormatContext *context);
 
-int parse_flags(const char fmt, FormatContext *context);
-int parse_length_modifiers(const char fmt, FormatContext *context);
+int parse_flag(const char fmt, FormatContext *context);
+int parse_length_modifier(const char fmt, FormatContext *context);
 int parse_width(const char fmt, FormatContext *context);
 
 int handle_character_specifier(FormatContext *context);

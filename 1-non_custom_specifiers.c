@@ -4,7 +4,6 @@
 
 /**
  * handle_hexadecimal_specifier - writes unsigned hexadecimal to buffer
- * @args: argument list
  * @context: data store for formatting options and arguments
  *
  * Return: On success 0.
@@ -15,16 +14,8 @@ int handle_hexadecimal_specifier(FormatContext *context)
 	char rem[18]; /* Assuming a 64-bit integer can have 16 hex digits */
 	int i = 0, digit;
 
-	if (num == 0)
-	{
-		/* handle zero case */
-		write_buffer('0', context);
-		return (0);
-	}
-
-	/* convert num to charater array */
-	while (num != 0)
-	{
+	/*convert num to charater array*/
+	do {
 		digit = num % 16;
 
 		if (digit >= 10)
@@ -32,7 +23,7 @@ int handle_hexadecimal_specifier(FormatContext *context)
 		else
 			rem[i++] = '0' + digit;
 		num /= 16;
-	}
+	} while (num > 0);
 
 	if (context->flags == FLAG_HASH)
 	{
@@ -51,7 +42,6 @@ int handle_hexadecimal_specifier(FormatContext *context)
 
 /**
  * handle_hexa_upper_specifier - writes unsigned hexadecimal to buffer
- * @args: argument list
  * @context: data store for formatting options and arguments
  *
  * Description: writes the letters in uppercase
@@ -63,15 +53,8 @@ int handle_hexa_upper_specifier(FormatContext *context)
 	char rem[18]; /* Assuming a 64-bit integer can have 16 hex digits */
 	int i = 0, digit;
 
-	if (num == 0)
-	{
-		/* Handle zero case */
-		write_buffer('0', context);
-		return (0);
-	}
-
-	while (num != 0)
-	{
+	/*convert num to charater array*/
+	do {
 		digit = num % 16;
 
 		if (digit >= 10)
@@ -79,7 +62,7 @@ int handle_hexa_upper_specifier(FormatContext *context)
 		else
 			rem[i++] = '0' + digit;
 		num /= 16;
-	}
+	} while (num > 0);
 
 	if (context->flags == FLAG_HASH)
 	{
@@ -97,7 +80,6 @@ int handle_hexa_upper_specifier(FormatContext *context)
 
 /**
  * handle_octal_specifier - writes unsigned octal to buffer
- * @args: argument list
  * @context: data store for formatting options and arguments
  *
  * Return: On successs 0
@@ -108,18 +90,11 @@ int handle_octal_specifier(FormatContext *context)
 	char rem[24]; /*Assuming a 64-bit integer can have 22 octal digits*/
 	int i = 0;
 
-	if (num == 0)
-	{
-		/*Handle zero case*/
-		write_buffer('0', context);
-		return (0);
-	}
-
-	while (num != 0)
-	{
+	/*convert num to charater array*/
+	do {
 		rem[i++] = (num % 8) + '0';
 		num /= 8;
-	}
+	} while (num > 0);
 
 	if (context->flags == FLAG_HASH)
 		write_buffer('0', context);

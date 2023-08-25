@@ -1,13 +1,13 @@
 #include "main.h"
 
 /**
- * parse_flags - checks format specifiers for flags and sets the bits
+ * parse_flag - checks format specifiers for flags and sets the bits
  * @fmt: format specifier
  * @context: data store for formatting options and arguments
  *
  * Return: flag
 */
-int parse_flags(const char fmt, FormatContext *context)
+int parse_flag(const char fmt, FormatContext *context)
 {
 	switch (fmt)
 	{
@@ -32,7 +32,7 @@ int parse_flags(const char fmt, FormatContext *context)
 }
 
 /**
- * parse_length_modifiers - indicates the size of the argument
+ * parse_length_modifier - indicates the size of the argument
  * @fmt: format specifier
  * @context: data store for formatting options and arguments
  *
@@ -41,7 +41,7 @@ int parse_flags(const char fmt, FormatContext *context)
  *
  * Return: length modifier
 */
-int parse_length_modifiers(const char fmt, FormatContext *context)
+int parse_length_modifier(const char fmt, FormatContext *context)
 {
 	switch (fmt)
 	{

@@ -4,7 +4,6 @@
 
 /**
  * handle_character_specifier - writes the character c to buffer
- * @args: argument list
  * @context: data store for formatting options and arguments
  *
  * Return: On success 1 else -1
@@ -23,7 +22,6 @@ int handle_character_specifier(FormatContext *context)
 
 /**
  * handle_string_specifier - writes string to buffer
- * @args: argument list
  * @context: data store for formatting options and arguments
  *
  * Return: On success 0.
@@ -49,7 +47,6 @@ int handle_string_specifier(FormatContext *context)
 
 /**
  * handle_integer_specifier - writes integer to buffer
- * @args: argument list
  * @context: data store for formatting options and arguments
  *
  * Return: On success 0.
@@ -69,8 +66,8 @@ int handle_integer_specifier(FormatContext *context)
 		num = va_arg(context->args, int);
 	else if (length_modifier == LENGTH_MODIFIER_LONG)
 		num = va_arg(context->args, long int);
-	else if (length_modifier == LENGTH_MODIFIER_SHORT)	/*Using typecast*/
-		num = (int)(short int)va_arg(context->args, int);		/*to avoid promotion*/
+	else if (length_modifier == LENGTH_MODIFIER_SHORT) /*Using typecast*/
+		num = (int)(short int)va_arg(context->args, int); /*to avoid promotion*/
 
 	if (num < 0)
 	{
@@ -96,7 +93,6 @@ int handle_integer_specifier(FormatContext *context)
 
 /**
  * handle_mem_addr_specifier - writes memory address to buffer
- * @args: argument list
  * @context: data store for formatting options and arguments
  *
  * Return: On success 0.
@@ -120,7 +116,6 @@ int handle_mem_addr_specifier(FormatContext *context)
 
 /**
  * handle_uint_specifier - writes unsigned integer to buffer
- * @args: argument list
  * @context: data store for formatting options and arguments
  *
  * Return: On success 0.

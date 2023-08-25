@@ -49,7 +49,6 @@ void write_buffer(char c, FormatContext *context)
 		context->buffer[context->buf_index++] = c;
 }
 
-
 /**
  * _memset - reset memory block to specified value
  *

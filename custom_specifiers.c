@@ -3,7 +3,6 @@
 /**
  * handle_binary_specifier - converts unsigned integer to binary
  * and writes to buffer
- * @args: argument list
  * @context: data store for formatting options and arguments
  *
  * Description: print binary numbers to output and increase the
@@ -44,7 +43,6 @@ int handle_binary_specifier(FormatContext *context)
 }
 /**
  * handle_mod_string_specifier - writes modified string to buffer
- * @args: argument list
  * @context: data store for formatting options and arguments
  *
  * Return: On success 0.
@@ -77,7 +75,6 @@ int handle_mod_string_specifier(FormatContext *context)
 
 /**
  * handle_reverse_string_specifier - writes reversed string to buffer
- * @args: argument list
  * @context: data store for formatting options and arguments
  *
  * Return: On success 0.
@@ -105,7 +102,6 @@ int handle_reverse_string_specifier(FormatContext *context)
 
 /**
  * handle_rot13_string_specifier - writed the encoded string in rot13 to buffer
- * @args: argument list
  * @context: data store for formatting options and arguments
  *
  * Return: On success 0.
