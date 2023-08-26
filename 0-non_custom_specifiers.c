@@ -54,7 +54,6 @@ int handle_string_specifier(FormatContext *context)
 int handle_integer_specifier(FormatContext *context)
 {
 	int num = 0, i = 0;
-	int length_modifier = context->length_modifier;
 	char rem[20];
 
 	if (context->flags == FLAG_PLUS)
@@ -62,12 +61,7 @@ int handle_integer_specifier(FormatContext *context)
 	else if (context->flags == FLAG_SPACE)
 		write_buffer(' ', context);
 
-	if (length_modifier == LENGTH_MODIFIER_NONE)
-		num = va_arg(context->args, int);
-	else if (length_modifier == LENGTH_MODIFIER_LONG)
-		num = va_arg(context->args, long int);
-	else if (length_modifier == LENGTH_MODIFIER_SHORT) /*Using typecast*/
-		num = (int)(short int)va_arg(context->args, int); /*to avoid promotion*/
+	num = modify_integer_length(context);
 
 	if (num < 0)
 	{
@@ -122,9 +116,11 @@ int handle_mem_addr_specifier(FormatContext *context)
  */
 int handle_uint_specifier(FormatContext *context)
 {
-	unsigned int num = va_arg(context->args, unsigned int);
+	unsigned int num = 0;
 	char rem[22]; /* Assuming a 64-bit integer can have at most 21 digits */
 	int i = 0;
+
+	num = (unsigned int)modify_integer_length(context);
 
 	if (num == 0)
 	{
